@@ -1,9 +1,17 @@
 const ldap = require("ldapjs")
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import GithubProvider from "next-auth/providers/github"
 
 export default NextAuth({
   providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      httpOptions: {
+        timeout: 40000,
+      },
+    }), 
     CredentialsProvider({
       name: "LDAP",
       credentials: {
@@ -38,13 +46,14 @@ export default NextAuth({
     async jwt({ token, user }) {
       const isSignIn = user ? true : false
       if (isSignIn) {
-        token.username = user.username
+        token.username = user.username? user.username:user.name
         token.password = user.password
+        console.log(token.username)
       }
       return token
     },
-    async session({ session, token }) {
-      return { ...session, user: { username: token.username } }
+    async session({ session, token, user }) {
+      return { ...session, user: { username: token.username? token.username:session.user.name, uid:token.sub } }
     },
   }
 })
