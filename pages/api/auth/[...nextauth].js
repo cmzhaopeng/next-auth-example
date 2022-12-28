@@ -2,6 +2,8 @@ const ldap = require("ldapjs")
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import prisma from "../../../lib/prisma"
 
 export default NextAuth({
   providers: [
@@ -12,7 +14,7 @@ export default NextAuth({
         timeout: 40000,
       },
     }), 
-    CredentialsProvider({
+   /* CredentialsProvider({
       name: "LDAP",
       credentials: {
         username: { label: "uid", type: "text", placeholder: "" },
@@ -40,9 +42,19 @@ export default NextAuth({
           })
         })
       },
-    }),
+    }),*/
   ],
-  callbacks: {
+  adapter: PrismaAdapter(prisma),
+  secret: process.env.SECRET,
+  allowDangerousEmailAccountLinking: true,
+    session: {
+    // Use JSON Web Tokens for session instead of database sessions.
+    jwt: true, 
+    
+    // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  /* callbacks: {
     async jwt({ token, user }) {
       const isSignIn = user ? true : false
       if (isSignIn) {
@@ -55,5 +67,5 @@ export default NextAuth({
     async session({ session, token, user }) {
       return { ...session, user: { username: token.username? token.username:session.user.name, uid:token.sub } }
     },
-  }
+  } */
 })

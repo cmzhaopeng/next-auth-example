@@ -43,9 +43,6 @@ const Blog: React.FC<Props> = (props) => {
 <h1>Public Feed</h1>
 
       <main className={styles.main}>
-        <div className={styles.description}>
-          <LoginBtn />
-        </div>
          {props.feed.map((post) => (
             <div key={post.id} className="post">
               <Post post={post} />
