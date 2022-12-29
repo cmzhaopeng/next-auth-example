@@ -14,7 +14,7 @@ export default NextAuth({
         timeout: 40000,
       },
     }), 
-   /* CredentialsProvider({
+    CredentialsProvider({
       name: "LDAP",
       credentials: {
         username: { label: "uid", type: "text", placeholder: "" },
@@ -34,20 +34,26 @@ export default NextAuth({
               reject()
             } else {
               console.log("Logged in")
-              resolve({
-                username: credentials.username,
-                password: credentials.password,
-              })
+             resolve({
+             //   username: credentials.username,
+             //   password: credentials.password,
+             // 
+               id: credentials.username, 
+               name: credentials.username, 
+               email: credentials.username+"@example.com", 
+               image: null, 
+                
+              }) 
             }
           })
         })
       },
-    }),*/
+    }),
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
- 
-  /* callbacks: {
+  session: { strategy: "jwt" },
+/*   callbacks: {
     async jwt({ token, user }) {
       const isSignIn = user ? true : false
       if (isSignIn) {
