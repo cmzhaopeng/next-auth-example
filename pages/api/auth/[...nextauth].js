@@ -46,14 +46,7 @@ export default NextAuth({
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
-  allowDangerousEmailAccountLinking: true,
-    session: {
-    // Use JSON Web Tokens for session instead of database sessions.
-    jwt: true, 
-    
-    // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
+ 
   /* callbacks: {
     async jwt({ token, user }) {
       const isSignIn = user ? true : false
