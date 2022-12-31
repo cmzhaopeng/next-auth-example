@@ -5,6 +5,7 @@ import GithubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from "../../../lib/prisma"
 
+
 export default NextAuth({
   providers: [
     GithubProvider({
@@ -22,26 +23,34 @@ export default NextAuth({
       },
       async authorize(credentials, req) {
         // You might want to pull this call out so we're not making a new LDAP client on every login attemp
+        const user= await prisma.user.findFirst({
+                where: {
+                  name: credentials.username,
+                },
+              })
         const client = ldap.createClient({
           url: process.env.LDAP_URI,
         })
+         if(!user){
+                console.log("User not found in user table")
+                return null
+           }
 
         // Essentially promisify the LDAPJS client.bind function
         return new Promise((resolve, reject) => {
           client.bind("uid="+credentials.username+","+process.env.LDAP_DN, credentials.password, (error) => {
             if (error) {
-              console.error("Failed")
-              reject()
+              reject(error)
             } else {
               console.log("Logged in")
              resolve({
              //   username: credentials.username,
              //   password: credentials.password,
              // 
-               id: credentials.username, 
+               id: user.id, 
                name: credentials.username, 
-               email: credentials.username+"@example.com", 
-               image: null, 
+               email: user.email, 
+               image: user.image, 
                 
               }) 
             }
