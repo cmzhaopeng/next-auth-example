@@ -5,6 +5,15 @@ import Layout from "../components/Layout";
 import { GetServerSideProps } from "next";
 import { useSession, getSession } from "next-auth/react";
 import prisma from "../lib/prisma";
+import { DataGrid, GridRowsProp, GridColDef} from '@mui/x-data-grid'
+
+const columns: GridColDef[] = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: 'Name', width: 130 },
+    { field: 'email', headerName: 'Email', width: 130 },
+    { field: 'image', headerName: 'Image', width: 130 },
+    ];
+
 
 type UserProps = {
     id: string;
@@ -52,12 +61,19 @@ const Admin: React.FC<Props> = ( props ) => {
       <div className="page">
         <h1>Admin</h1>
         <main>
+        {/*  
           {props.users.map((user) => (
             <div key={user.id} className="user">
               <h2>{user.name}</h2>
               <h2>{user.email}</h2>
             </div>
           ))}
+          */}
+
+<div style={{ height: 300, width: '100%' }}>
+      <DataGrid rows={props.users} columns={columns} />
+    </div>
+
         </main>
       </div>
       <style jsx>{`
