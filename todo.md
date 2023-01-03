@@ -5,7 +5,8 @@ finished.
 2. add user registration page, and add user registration function for ldap user. 
    add admin email in the env file.
    in Header component, if the email is admin, show the admin link.
-    in the admin page, show the user list, and add the delete user function. 
+    in the admin page, show the user list  
+finished.
 
-
+3. CRUD for the user table. 
 

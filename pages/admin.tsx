@@ -47,6 +47,26 @@ type Props = {
 
 const Admin: React.FC<Props> = ( props ) => {
   const { data: session } = useSession();
+  const [selectedRowData, setSelectedRowData] = React.useState([] as UserProps[]);
+
+  const submitData = async () => {
+    
+    try {
+    /*  const body = { title, content };
+      await fetch("/api/post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      await Router.push("/drafts");
+      */
+     await console.log(selectedRowData);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   if (!session) {
     return (
@@ -71,7 +91,15 @@ const Admin: React.FC<Props> = ( props ) => {
           */}
 
 <div style={{ height: 300, width: '100%' }}>
-      <DataGrid rows={props.users} columns={columns} />
+      <DataGrid rows={props.users} columns={columns} onSelectionModelChange={(ids) => {
+  const selectedIDs = new Set(ids);
+  const selectedRowData1 = props.users.filter((row) =>  selectedIDs.has(row.id.toString()));
+  setSelectedRowData(selectedRowData1);
+  //console.log(selectedRowData);
+  submitData();
+
+}}
+/>
     </div>
 
         </main>
