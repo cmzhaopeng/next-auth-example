@@ -28,6 +28,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.2",
     "@mui/x-data-grid": "^5.17.17",
+    "cuid": "^2.1.8",
     "prisma": "^4.8.0"
   }
 }
