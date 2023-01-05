@@ -5,17 +5,27 @@ import Layout from "../components/Layout";
 import { GetServerSideProps } from "next";
 import { useSession, getSession } from "next-auth/react";
 import prisma from "../lib/prisma";
-import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridRowsProp,
+  GridColDef,
+  GridRowModel,
+  GridRowId,
+  GridCellModes,
+  GridCellModesModel,
+  GridEventListener,
+} from "@mui/x-data-grid";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import cuid from "cuid";
+import Alert, { AlertProps } from "@mui/material/Alert";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 270 },
-  { field: "name", headerName: "Name", width: 130 },
-  { field: "email", headerName: "Email", width: 130 },
-  { field: "image", headerName: "Image", width: 130 },
+  { field: "name", headerName: "Name", width: 130, editable: true },
+  { field: "email", headerName: "Email", width: 130, editable: true },
+  { field: "image", headerName: "Image", width: 130, editable: true },
 ];
 
 type UserProps = {
@@ -53,9 +63,45 @@ const Admin: React.FC<Props> = (props) => {
     [] as UserProps[]
   );
   const [rows, setRows] = React.useState(props.users);
+  const [editRows, setEditRows] = React.useState([] as UserProps[]);
+  const [addRows, setAddRows] = React.useState([] as UserProps[]);
 
-  const handleAddRow = async () => {
-    const uid= cuid();
+  const processRowUpdate = React.useCallback(async (newRow: GridRowModel) => {
+    // Make the HTTP request to save in the backend
+    /* const response = await mutateRow(newRow);
+      setSnackbar({ children: 'User successfully saved', severity: 'success' });
+      return response;*/
+
+    // Update the rows in the grid
+    const fr = rows.find((row) => row.id === newRow.id);
+    if (fr) {
+      fr.name = newRow.name;
+      fr.email = newRow.email;
+      fr.image = newRow.image;
+    }
+
+
+    const foundAdd = addRows.find((row) => row.id === newRow.id);
+    if (foundAdd) {
+      foundAdd.name = newRow.name;
+      foundAdd.email = newRow.email;
+      foundAdd.image = newRow.image;
+    } else {
+      const found = editRows.find((row) => row.id === newRow.id);
+      if (found) {
+        found.name = newRow.name;
+        found.email = newRow.email;
+        found.image = newRow.image;
+      } else {
+        editRows.push(newRow as UserProps);
+      }
+      setEditRows(editRows);
+    }
+    return newRow;
+  }, []);
+
+  const handleAddRow =  () => {
+    const uid = cuid();
     const newRow = {
       id: uid,
       name: "New User",
@@ -63,6 +109,20 @@ const Admin: React.FC<Props> = (props) => {
       image: "New Image",
     };
     setRows((prevRows) => [...prevRows, newRow]);
+    setAddRows((prevAddRows) => [...prevAddRows, newRow]);
+    // addRows.push(newRow);
+    // setAddRows(addRows);
+  };
+
+  const handleSaveToDatabase = async () => {
+    console.log(editRows);
+    console.log(addRows);
+
+    try {
+      console.log(addRows);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const submitData = async () => {
@@ -75,7 +135,7 @@ const Admin: React.FC<Props> = (props) => {
       });
       await Router.push("/drafts");
       */
-      await console.log(selectedRowData);
+      //  await console.log(selectedRowData);
     } catch (error) {
       console.error(error);
     }
@@ -105,11 +165,14 @@ const Admin: React.FC<Props> = (props) => {
 
           <Box sx={{ width: "100%" }}>
             <Stack direction="row" spacing={2}>
-              <Button size="small"  onClick={handleAddRow}>
+              <Button size="small" onClick={handleAddRow}>
                 Add a Row
               </Button>
-              </Stack>
-              <Box sx={{ height: 400, mt: 1 }}>
+              <Button size="small" onClick={handleSaveToDatabase}>
+                Save to Database
+              </Button>
+            </Stack>
+            <Box sx={{ height: 400, mt: 1 }}>
               <DataGrid
                 rows={rows}
                 columns={columns}
@@ -122,8 +185,10 @@ const Admin: React.FC<Props> = (props) => {
                   //console.log(selectedRowData);
                   submitData();
                 }}
+                processRowUpdate={processRowUpdate}
+                experimentalFeatures={{ newEditingApi: true }}
               />
-              </Box>
+            </Box>
           </Box>
         </main>
       </div>
