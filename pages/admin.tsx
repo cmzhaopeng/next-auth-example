@@ -66,6 +66,7 @@ const Admin: React.FC<Props> = (props) => {
   const [rows, setRows] = React.useState(props.users);
   const [editRows, setEditRows] = React.useState([] as UserProps[]);
   const [addRows, setAddRows] = React.useState([] as UserProps[]);
+  const [deleteRows, setDeleteRows] = React.useState([] as UserProps[]);
 
   const processRowUpdate =  (newRow: GridRowModel) => {
     // Make the HTTP request to save in the backend
@@ -83,6 +84,9 @@ const Admin: React.FC<Props> = (props) => {
 
     setRows([...rows]);
 
+    //if the row is in the addRows, update it in the addRows
+    //return to avoid producing update operation to the database
+    //it need not to be insert into the editRows
     const foundAdd = addRows.find((row) => row.id === newRow.id);
     if (foundAdd) {
       foundAdd.name = newRow.name;
@@ -92,7 +96,8 @@ const Admin: React.FC<Props> = (props) => {
       setAddRows([...addRows]);
       return newRow;
     } 
-    
+
+    //if the row is in the editRows, update it in the editRows
       const found = editRows.find((row) => row.id === newRow.id);
       if (found) {
         found.name = newRow.name;
@@ -117,13 +122,39 @@ const Admin: React.FC<Props> = (props) => {
     setAddRows([...addRows, newRow]);
   };
 
+  const handleDeleteRow = () => {
+    //delete the selected rows
+    const newRows = rows.filter((row) => !selectedRowData.includes(row));
+    setRows(newRows);
+
+    //if the selected rows are in the addRows, remove them from addRows
+    const len = addRows.length
+    const newAddRows = addRows.filter((row) => !selectedRowData.includes(row));
+    setAddRows(newAddRows);
+    //if the selected rows are not in the addRows and have been detected, return because it need not to be insert into the deleteRows
+    //it reduces the operation of the database
+    if (len !== newAddRows.length) return;
+    //else remove from the editRows and add to the deleteRows, reduce the operation of the database
+    const newEditRows = editRows.filter((row) => !selectedRowData.includes(row));
+    setEditRows(newEditRows);
+    setDeleteRows([...deleteRows, ...selectedRowData]); 
+
+  };
+
   React.useEffect(() => {
+    console.log("useEffect:addRows")
     console.log(addRows);
   }, [addRows]);
 
   React.useEffect(() => {
+    console.log("useEffect:editRows")
     console.log(editRows);
   }, [editRows]);
+
+  React.useEffect(() => {
+    console.log("useEffect:deleteRows")
+    console.log(deleteRows);
+  }, [deleteRows]);
 
 
   const handleSaveToDatabase = async () => {
@@ -132,6 +163,8 @@ const Admin: React.FC<Props> = (props) => {
       console.log(editRows);
       console.log("Add rows:");
       console.log(addRows);
+      console.log("Delete rows:");
+      console.log(deleteRows);
     } catch (error) {
       console.error(error);
     }
@@ -180,6 +213,9 @@ const Admin: React.FC<Props> = (props) => {
               <Button size="small" onClick={handleAddRow}>
                 Add a Row
               </Button>
+              <Button size="small" onClick={handleDeleteRow}>
+                Delete a Row
+                </Button>
               <Button size="small" onClick={handleSaveToDatabase}>
                 Save to Database
               </Button>
@@ -195,7 +231,7 @@ const Admin: React.FC<Props> = (props) => {
                   );
                   setSelectedRowData(selectedRowData1);
                   //console.log(selectedRowData);
-                  submitData();
+                  //submitData();
                 }}
                 processRowUpdate={processRowUpdate}
                 experimentalFeatures={{ newEditingApi: true }}
