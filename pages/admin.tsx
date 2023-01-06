@@ -20,6 +20,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import cuid from "cuid";
 import Alert, { AlertProps } from "@mui/material/Alert";
+import { randomInt, randomUUID } from "crypto";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 270 },
@@ -66,7 +67,7 @@ const Admin: React.FC<Props> = (props) => {
   const [editRows, setEditRows] = React.useState([] as UserProps[]);
   const [addRows, setAddRows] = React.useState([] as UserProps[]);
 
-  const processRowUpdate = React.useCallback(async (newRow: GridRowModel) => {
+  const processRowUpdate =  (newRow: GridRowModel) => {
     // Make the HTTP request to save in the backend
     /* const response = await mutateRow(newRow);
       setSnackbar({ children: 'User successfully saved', severity: 'success' });
@@ -80,45 +81,56 @@ const Admin: React.FC<Props> = (props) => {
       fr.image = newRow.image;
     }
 
+    setRows([...rows]);
 
     const foundAdd = addRows.find((row) => row.id === newRow.id);
     if (foundAdd) {
       foundAdd.name = newRow.name;
       foundAdd.email = newRow.email;
       foundAdd.image = newRow.image;
-    } else {
+
+      setAddRows([...addRows]);
+      return newRow;
+    } 
+    
       const found = editRows.find((row) => row.id === newRow.id);
       if (found) {
         found.name = newRow.name;
         found.email = newRow.email;
         found.image = newRow.image;
+        setEditRows([...editRows]);
       } else {
-        editRows.push(newRow as UserProps);
+        setEditRows([...editRows, newRow as UserProps]);
       }
-      setEditRows(editRows);
-    }
-    return newRow;
-  }, []);
+      return newRow;
+  };
 
-  const handleAddRow =  () => {
+  const handleAddRow = () => {
     const uid = cuid();
     const newRow = {
       id: uid,
-      name: "New User",
-      email: "New Email",
-      image: "New Image",
+      name: "User"+uid.slice(-5),
+      email: uid.slice(-5)+"@139.com",
+      image: "NewImage",
     };
-    setRows((prevRows) => [...prevRows, newRow]);
-    setAddRows((prevAddRows) => [...prevAddRows, newRow]);
-    // addRows.push(newRow);
-    // setAddRows(addRows);
+    setRows([...rows, newRow]);
+    setAddRows([...addRows, newRow]);
   };
 
-  const handleSaveToDatabase = async () => {
-    console.log(editRows);
+  React.useEffect(() => {
     console.log(addRows);
+  }, [addRows]);
 
+  React.useEffect(() => {
+    console.log(editRows);
+  }, [editRows]);
+
+
+  const handleSaveToDatabase = async () => {
     try {
+      console.log("Edit rows:");
+      console.log(editRows);
+      console.log("Add rows:");
       console.log(addRows);
     } catch (error) {
       console.error(error);
