@@ -4,6 +4,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import { GetServerSideProps } from "next";
 import { useSession, getSession } from "next-auth/react";
+import { UserProps } from "./api/user";
 import prisma from "../lib/prisma";
 import {
   DataGrid,
@@ -29,12 +30,6 @@ const columns: GridColDef[] = [
   { field: "image", headerName: "Image", width: 130, editable: true },
 ];
 
-type UserProps = {
-  id: string;
-  name: string;
-  email: string;
-  image: string;
-};
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req });
@@ -159,6 +154,39 @@ const Admin: React.FC<Props> = (props) => {
 
   const handleSaveToDatabase = async () => {
     try {
+      
+      if(addRows.length > 0){
+        const users= addRows
+        const body = { users };
+        await fetch("/api/user", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        setAddRows([]);
+      }
+
+      if(editRows.length > 0){
+        const users = editRows
+        const body = { users };
+        await fetch("/api/user", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        setEditRows([]);
+      }
+
+      if(deleteRows.length > 0){
+        const users = deleteRows
+        const body = { users };
+        await fetch("/api/user", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        setDeleteRows([]);
+      }
       console.log("Edit rows:");
       console.log(editRows);
       console.log("Add rows:");
