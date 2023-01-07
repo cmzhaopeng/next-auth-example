@@ -151,6 +151,26 @@ const Admin: React.FC<Props> = (props) => {
     console.log(deleteRows);
   }, [deleteRows]);
 
+  const handleReloadRows = async () => {
+
+    try{
+       const users = await fetch("api/user", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        });
+        const data = await users.json();
+        console.log("Get from database:")
+        console.log(data);
+
+        setRows(data);
+        setAddRows([]);
+        setEditRows([]);
+        setDeleteRows([]);
+    }catch(err){
+      console.log(err);
+    }
+  };
+
 
   const handleSaveToDatabase = async () => {
     try {
@@ -247,6 +267,9 @@ const Admin: React.FC<Props> = (props) => {
               <Button size="small" onClick={handleSaveToDatabase}>
                 Save to Database
               </Button>
+              <Button size="small" onClick={handleReloadRows}>
+                Reload Rows
+                </Button>
             </Stack>
             <Box sx={{ height: 400, mt: 1 }}>
               <DataGrid

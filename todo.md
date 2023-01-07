@@ -11,3 +11,4 @@ finished.
 3. CRUD for the user table. 
 finished.
 
+4. add hint or prompting message after the user operation.
