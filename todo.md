@@ -12,3 +12,10 @@ finished.
 finished.
 
 4. add hint or prompting message after the user operation.
+
+   before reload the users from the database, if add, edit, delete operation is not save to the database, show the message to the user, if the user select to reload the users, the operation will be lost.
+   if the user select to confirm  the operation, the data will be reload from the database.
+   if the user select to cancel,  do nothing.
+
+   finished.
+
