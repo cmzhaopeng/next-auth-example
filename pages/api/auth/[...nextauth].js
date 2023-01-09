@@ -1,5 +1,6 @@
 const ldap = require("ldapjs")
 import NextAuth from "next-auth"
+import { getToken } from "next-auth/jwt"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
@@ -62,17 +63,8 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
   session: { strategy: "jwt" },
-/*   callbacks: {
-    async jwt({ token, user }) {
-      const isSignIn = user ? true : false
-      if (isSignIn) {
-        token.username = user.username? user.username:user.name
-        token.password = user.password
-        console.log(token.username)
-      }
-      return token
-    },
-    async session({ session, token, user }) {
+  
+  /*  async session({ session, token, user }) {
       return { ...session, user: { username: token.username? token.username:session.user.name, uid:token.sub } }
     },
   } */

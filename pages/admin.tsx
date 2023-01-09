@@ -3,8 +3,9 @@
 import React from "react";
 import Layout from "../components/Layout";
 import { GetServerSideProps } from "next";
-import { useSession, getSession } from "next-auth/react";
+import { useSession, getSession,getCsrfToken } from "next-auth/react";
 import { UserProps } from "./api/user";
+import { getToken } from "next-auth/jwt";
 import prisma from "../lib/prisma";
 import {
   DataGrid,
@@ -37,10 +38,17 @@ const columns: GridColDef[] = [
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req });
+  //const csrfToken = await getCsrfToken({ req });
+  //const token = await getToken({ req, secret: process.env.SECRET });
+
   if (!session) {
     res.statusCode = 403;
     return { props: { users: [] } };
   }
+
+  //if(csrfToken) console.log("csrfToken: " + csrfToken);
+
+  //if(token) console.log("token: " + token);
 
   const isAdmin = session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
   if (!isAdmin) {
@@ -74,9 +82,16 @@ const Admin: React.FC<Props> = (props) => {
   const [open, setOpen] = React.useState(false);
   const noButtonRef = React.useRef<HTMLButtonElement>(null);
 
+  const handleGetDataFromBackend = async () => {
+     console.log("handleGetDataFromBackend");
+     if(session) console.log(session.access_token);
+  }
+
+
   const handleEntered = () => {
 
   };
+
 
   const handleNo = () => {
     setOpen(false);
@@ -336,6 +351,9 @@ const handleCloseSnackbar = () => setSnackbar(null);
               </Button>
               <Button size="small" onClick={handlePreReloadRows}>
                 Reload Rows
+              </Button>
+              <Button size="small" onClick={handleGetDataFromBackend}>
+                Get Data from Backend
               </Button>
             </Stack>
             <Box sx={{ height: 400, mt: 1 }}>
