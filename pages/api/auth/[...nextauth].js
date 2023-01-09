@@ -1,6 +1,5 @@
 const ldap = require("ldapjs")
 import NextAuth from "next-auth"
-import { getToken } from "next-auth/jwt"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
