@@ -22,4 +22,7 @@ finished.
 5. add export function for the user table, export the data to a csv file. 
 
 6. import function for the user table, import the data from a csv file.
+
+7. add session custom data
+
    
