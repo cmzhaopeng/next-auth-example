@@ -62,6 +62,16 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
   session: { strategy: "jwt" },
+
+  callbacks: {
+    async session({ session, token, user }) {
+      // Add property to session, like an access_token from a provider.
+      session.user.username = session.user.name.split(" ").join().toLocaleLowerCase();
+      session.user.uid= token.sub?token.sub:session.user.id;
+      return {...session, jwtToken:"kdkdkdkdk", } ;
+    }
+
+  },
   
   /*  async session({ session, token, user }) {
       return { ...session, user: { username: token.username? token.username:session.user.name, uid:token.sub } }
