@@ -68,7 +68,32 @@ export default NextAuth({
       // Add property to session, like an access_token from a provider.
       session.user.username = session.user.name.split(" ").join().toLocaleLowerCase();
       session.user.uid= token.sub?token.sub:session.user.id;
-      return {...session, jwtToken:"kdkdkdkdk", } ;
+      const formData = new FormData();
+      formData.append("email", "testing@139.com");
+      formData.append("password", "LiriTesJ");
+
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        body: formData,
+      })
+      
+      const data = await response.json();
+      console.log(data);
+    /* 
+     await fetch("http://localhost:8080/login", {
+        method: "POST",
+        body: formData,
+      }).then((response) => response.json())
+      .then((data) => {
+        const jwtToken = data.token;
+        console.log("Success:", jwtToken);
+        return {...session, jwtToken:"skskskjwtToken", } ;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+      */
+      return {...session, jwtToken:data.token, } ;
     }
 
   },

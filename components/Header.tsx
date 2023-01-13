@@ -3,12 +3,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut,useSession } from "next-auth/react";
 
+
+
 const Header: React.FC = () => {
   const router = useRouter();
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
 
   const {data:session,status} = useSession();
+
+  
 
   let left = (
     <div className="left">
@@ -106,6 +110,9 @@ const Header: React.FC = () => {
   }
   if (session) {
     const isAdmin= session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL
+
+
+
     left = (
       <div className="left">
         <Link href="/" className="bold" data-active={isActive('/')}>
@@ -138,7 +145,7 @@ const Header: React.FC = () => {
     right = (
       <div className="right">
         <p>
-          {session.user.name} ({session.user.email}-{session.jwtToken})
+          {session.user.name} ({session.user.email}-{handleGetDataFromGoBackend})
         </p>
         <Link href="/create">
           <button>
