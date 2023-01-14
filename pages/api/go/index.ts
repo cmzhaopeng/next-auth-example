@@ -23,15 +23,30 @@ export default async function handle(req, res) {
     return;
   }
 
-  await fetch('http://localhost:8080/home', {
-      method: 'GET',
-      headers: {
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-        'Authorization': 'BearereyJhbGciOiJIUzI0NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODU1NzIwLCJpYXQiOjE2NzM1OTY1MjAsImlzcyI6IkJpa2FzaCJ9.YaGN0JPwXw7-_kfHsYkdevYRRV0D1WwlBRpqZ8sMxKs',
-        },
-        })
-        .then(response => response.text())
-        .then(data => res.josn(data))
-        .catch(error => console.error('Error:', error))
+  const response = await fetch("http://localhost:8080/home", {
+    method: "POST",
+    headers: {
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODc2MDgyLCJpYXQiOjE2NzM2MTY4ODIsImlzcyI6IkJpa2FzaCJ9.Zx0PHYnvUNJwuOzU4oAFtBqONwgEs5p-bY3oICnUXKw",
+    },
+  });
+
+  const data2 = await response.json();
+
+  console.log(data2);
+  console.log("api/go/index.ts")
+  return res.json(data2);
+
+  return res.json({ gouser: "gouser" });
+
+  await fetch("http://localhost:8080/home", {
+    method: "GET",
+    headers: {
+      Authorization:
+        "BearereyJhbGciOiJIUzI0NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODU1NzIwLCJpYXQiOjE2NzM1OTY1MjAsImlzcyI6IkJpa2FzaCJ9.YaGN0JPwXw7-_kfHsYkdevYRRV0D1WwlBRpqZ8sMxKs",
+    },
+  })
+    .then((response) => response.text())
+    .then((data) => res.josn(data))
+    .catch((error) => console.error("Error:", error));
 }

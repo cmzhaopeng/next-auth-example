@@ -79,6 +79,19 @@ export default NextAuth({
       
       const data = await response.json();
       console.log(data);
+/*
+      const res=await  fetch("http://localhost:8080/home", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODc2MDgyLCJpYXQiOjE2NzM2MTY4ODIsImlzcyI6IkJpa2FzaCJ9.Zx0PHYnvUNJwuOzU4oAFtBqONwgEs5p-bY3oICnUXKw",
+        },
+
+      });
+
+      const data2 = await res.json();
+
+      console.log(data2);
+      */
     /* 
      await fetch("http://localhost:8080/login", {
         method: "POST",

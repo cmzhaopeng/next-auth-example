@@ -1,23 +1,61 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { signOut,useSession } from "next-auth/react";
-
-
+import { signOut, useSession } from "next-auth/react";
+import axios from "axios";
 
 const Header: React.FC = () => {
   const router = useRouter();
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
+  const { data: session, status } = useSession();
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [gouser, setGouser] = React.useState(null);
 
-  const {data:session,status} = useSession();
+  const handleGetgodata = async (para:string) => {
+    const res = await fetch("api/go", {
+      method: "POST",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODc2MDgyLCJpYXQiOjE2NzM2MTY4ODIsImlzcyI6IkJpa2FzaCJ9.Zx0PHYnvUNJwuOzU4oAFtBqONwgEs5p-bY3oICnUXKw",
+      },
+    });
+
+    const data2 = await res.json();
+
+    console.log(data2);
+    setGouser(data2.Gouser)
+    return data2;
+  };
 
   
+  useEffect(() => {
+    handleGetgodata("test-para");
+  }, []);
+
+  /*
+   const [mydata, setMydata] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/home", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODc2MDgyLCJpYXQiOjE2NzM2MTY4ODIsImlzcyI6IkJpa2FzaCJ9.Zx0PHYnvUNJwuOzU4oAFtBqONwgEs5p-bY3oICnUXKw",
+      },
+      mode: 'no-cors',
+      credentials: 'include',
+    })
+    .then(res => console.log(res))
+    .catch(error => console.log(error));
+  }, []);
+
+  */
 
   let left = (
     <div className="left">
       <Link href="/" className="bold" data-active={isActive("/")}>
-          Feed
+        Feed
       </Link>
       <style jsx>{`
         .bold {
@@ -40,25 +78,24 @@ const Header: React.FC = () => {
 
   let right = null;
 
-  if(status === "loading") {
-     left= (
+  if (status === "loading") {
+    left = (
       <div className="left">
         <Link href="/" className="bold" data-active={isActive("/")}>
-            Feed
+          Feed
         </Link>
         <style jsx>{`
-
           .bold {
             font-weight: bold;
           }
-          
+
           a {
             text-decoration: none;
             color: var(--geist-foreground);
             display: inline-block;
           }
 
-          .left a[data-active='true'] {
+          .left a[data-active="true"] {
             color: gray;
           }
 
@@ -69,7 +106,7 @@ const Header: React.FC = () => {
       </div>
     );
     right = (
-<div className="right">
+      <div className="right">
         <p>Validating session ...</p>
         <style jsx>{`
           .right {
@@ -82,7 +119,8 @@ const Header: React.FC = () => {
   if (!session) {
     right = (
       <div className="right">
-        <Link href="/api/auth/signin" data-active={isActive('/signup')}>Log in
+        <Link href="/api/auth/signin" data-active={isActive("/signup")}>
+          Log in
         </Link>
         <style jsx>{`
           a {
@@ -109,17 +147,17 @@ const Header: React.FC = () => {
     );
   }
   if (session) {
-    const isAdmin= session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL
-
-
+    const isAdmin =
+      session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
     left = (
       <div className="left">
-        <Link href="/" className="bold" data-active={isActive('/')}>
-            Feed 
+        <Link href="/" className="bold" data-active={isActive("/")}>
+          Feed
         </Link>
         <span> | </span>
-        <Link href="/drafts" data-active={isActive('/drafts')}>My drafts
+        <Link href="/drafts" data-active={isActive("/drafts")}>
+          My drafts
         </Link>
         <style jsx>{`
           .bold {
@@ -132,7 +170,7 @@ const Header: React.FC = () => {
             display: inline-block;
           }
 
-          .left a[data-active='true'] {
+          .left a[data-active="true"] {
             color: gray;
           }
 
@@ -145,18 +183,16 @@ const Header: React.FC = () => {
     right = (
       <div className="right">
         <p>
-          {session.user.name} ({session.user.email}-{handleGetDataFromGoBackend})
+          {session.user.name} ({session.user.email}-{gouser}
         </p>
         <Link href="/create">
-          <button>
-            New post
-          </button>
+          <button>New post</button>
         </Link>
-        {isAdmin && ( <Link href="/admin">
-          <button> 
-          Admin
-          </button>
-           </Link>)}
+        {isAdmin && (
+          <Link href="/admin">
+            <button>Admin</button>
+          </Link>
+        )}
         <button onClick={() => signOut()}>
           <a>Log out</a>
         </button>
@@ -194,7 +230,6 @@ const Header: React.FC = () => {
       </div>
     );
   }
-
 
   return (
     <nav>
