@@ -25,4 +25,16 @@ finished.
 
 7. add session custom data
 
+8. add user group table
+   relation with user table 
+   id，group_name,user_id 
+
+9. add privilege table
+   id, privilege_type, privilege_content, group_id
+   
+
+10. add dict table
+   
+   id, code, description,ref_table, ref_column
+
    
