@@ -58,6 +58,41 @@ model User {
   posts         Post[]
   accounts      Account[]
   sessions      Session[]
+  userGroup  UserGroup[]
+
+}
+
+model Group {
+  id    String @id @default(cuid())
+  name  String
+  groupDescription String? @map("group_description")
+  userGroup UserGroup[]
+  groupPrivilege GroupPrivilege[]
+}
+
+model UserGroup {
+  id    String @id @default(cuid())
+  user  User @relation(fields: [userId], references: [id])
+  userId String @map("user_id") 
+  group Group @relation(fields: [groupId], references: [id])
+  groupId String @map("group_id")
+}
+
+model Privilege {
+  id    String @id @default(cuid())
+  name  String
+  privilegeType String @map("privilege_type")
+  privilegeContent String? @map("privilege_content")
+  description String?
+  groupPrivilege GroupPrivilege[]
+}
+
+model GroupPrivilege {
+  id    String @id @default(cuid())
+  group Group @relation(fields: [groupId], references: [id])
+  groupId String @map("group_id")
+  privilege Privilege @relation(fields: [privilegeId], references: [id])
+  privilegeId String @map("privilege_id")
 }
 
 model VerificationToken {

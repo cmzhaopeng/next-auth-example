@@ -2,7 +2,16 @@ import React, { useCallback, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
+import Menu from "./Menu";
 import axios from "axios";
+
+const menu = [
+
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
+  { name: 'Contact', path: '/contact' },
+]
+
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -193,6 +202,7 @@ const Header: React.FC = () => {
             <button>Admin</button>
           </Link>
         )}
+        <Menu menu={menu}/>
         <button onClick={() => signOut()}>
           <a>Log out</a>
         </button>
