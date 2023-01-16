@@ -23,7 +23,8 @@ const Header: React.FC = () => {
   const [gouser, setGouser] = React.useState(null);
 
   const handleGetgodata = async (para:string) => {
-    const res = await fetch("api/go", {
+    //const res = await fetch("api/go", {
+    const res = await fetch("http://localhost:8080/home", {
       method: "POST",
       headers: {
         Authorization:
