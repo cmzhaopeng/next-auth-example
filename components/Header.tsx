@@ -22,6 +22,18 @@ const Header: React.FC = () => {
   const [error, setError] = React.useState("");
   const [gouser, setGouser] = React.useState(null);
 
+  const handleGetUser = async () => {
+        const res = await fetch("api/user/clcyfctkm0004utv4xbv39dpw");
+        const data = await res.json();
+        console.log("api/user/clcyfctkm0004utv4xbv39dpw")
+        console.log(data.email);
+        const res2 = await fetch("api/user/privilege/mtest1");
+        const data2 = await res2.json();
+        console.log("api/user/privilege/mtest1")
+        console.log(data2.email);
+  }
+
+
   const handleGetgodata = async (para:string) => {
     //const res = await fetch("api/go", {
     const res = await fetch("http://localhost:8080/home", {
@@ -42,6 +54,7 @@ const Header: React.FC = () => {
   
   useEffect(() => {
     handleGetgodata("test-para");
+    handleGetUser();
   }, []);
 
   /*
