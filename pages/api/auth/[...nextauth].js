@@ -79,6 +79,7 @@ export default NextAuth({
       
       const data = await response.json();
       console.log(data);
+      session.user.uid=data?data.token:"";
 /*
       const res=await  fetch("http://localhost:8080/home", {
         method: "POST",
@@ -106,7 +107,7 @@ export default NextAuth({
         console.error("Error:", error);
       });
       */
-      return {...session, jwtToken:data.token, } ;
+      return {...session, jwtToken:data.token } ;
     }
 
   },

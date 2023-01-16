@@ -22,26 +22,29 @@ const Header: React.FC = () => {
   const [error, setError] = React.useState("");
   const [gouser, setGouser] = React.useState(null);
 
-  const handleGetUser = async () => {
-        const res = await fetch("api/user/clcyfctkm0004utv4xbv39dpw");
+  const handleGetUserPrivilege = async () => {
+       /* const res = await fetch("api/user/clcyfctkm0004utv4xbv39dpw");
         const data = await res.json();
         console.log("api/user/clcyfctkm0004utv4xbv39dpw")
         console.log(data.email);
+        */
         const res2 = await fetch("api/user/privilege/mtest1");
         const data2 = await res2.json();
         console.log("api/user/privilege/mtest1")
-        console.log(data2.email);
+        console.log(data2);
+        //map data2 to menuitem
+        data2.map((item:any) => {
+          console.log(item.name);
+          console.log(item.privilegeContent);
+        //  menu.push({name:item.name,path:item.path})
+        });
+
   }
 
 
   const handleGetgodata = async (para:string) => {
     //const res = await fetch("api/go", {
-    const res = await fetch("http://localhost:8080/home", {
-      method: "POST",
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODc2MDgyLCJpYXQiOjE2NzM2MTY4ODIsImlzcyI6IkJpa2FzaCJ9.Zx0PHYnvUNJwuOzU4oAFtBqONwgEs5p-bY3oICnUXKw",
-      },
+    const res = await fetch("api/go", {
     });
 
     const data2 = await res.json();
@@ -54,7 +57,7 @@ const Header: React.FC = () => {
   
   useEffect(() => {
     handleGetgodata("test-para");
-    handleGetUser();
+    handleGetUserPrivilege();
   }, []);
 
   /*

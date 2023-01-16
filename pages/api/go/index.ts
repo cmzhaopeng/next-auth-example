@@ -22,12 +22,14 @@ export default async function handle(req, res) {
     });
     return;
   }
-
+ 
+  console.log(session)
+  
   const response = await fetch("http://localhost:8080/home", {
     method: "POST",
     headers: {
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODc2MDgyLCJpYXQiOjE2NzM2MTY4ODIsImlzcyI6IkJpa2FzaCJ9.Zx0PHYnvUNJwuOzU4oAFtBqONwgEs5p-bY3oICnUXKw",
+        "Bearer "+session.jwtToken,
     },
   });
 
