@@ -18,7 +18,7 @@ export default async function handle(req, res) {
   const isAdmin = session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
   if (!isAdmin) {
     res.status(401).json({
-      message: "You must be Admin to view the protected content on this page.",
+      message: "You must login to view the protected content on this page.",
     });
     return;
   }
@@ -39,16 +39,4 @@ export default async function handle(req, res) {
   console.log("api/go/index.ts")
   return res.json(data2);
 
-  return res.json({ gouser: "gouser" });
-
-  await fetch("http://localhost:8080/home", {
-    method: "GET",
-    headers: {
-      Authorization:
-        "BearereyJhbGciOiJIUzI0NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdGluZ0AxMzkuY29tIiwidXNlciI6dHJ1ZSwiZXhwIjoxNjczODU1NzIwLCJpYXQiOjE2NzM1OTY1MjAsImlzcyI6IkJpa2FzaCJ9.YaGN0JPwXw7-_kfHsYkdevYRRV0D1WwlBRpqZ8sMxKs",
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => res.josn(data))
-    .catch((error) => console.error("Error:", error));
 }
