@@ -58,41 +58,52 @@ model User {
   posts         Post[]
   accounts      Account[]
   sessions      Session[]
-  userGroup  UserGroup[]
+ // userGroup  UserGroup[] @relation("ReferId")
+  userGroup UserGroup[] @relation("ReferEmail")
+
 
 }
 
 model Group {
   id    String @id @default(cuid())
-  name  String
+  name  String @unique
   groupDescription String? @map("group_description")
-  userGroup UserGroup[]
+  //userGroup UserGroup[] @relation("ReferId")
+  userGroup UserGroup[] @relation("ReferName")
+
   groupPrivilege GroupPrivilege[]
 }
 
 model UserGroup {
   id    String @id @default(cuid())
-  user  User @relation(fields: [userId], references: [id])
-  userId String @map("user_id") 
-  group Group @relation(fields: [groupId], references: [id])
-  groupId String @map("group_id")
+ // user  User @relation("ReferId",fields: [userId], references: [id])
+  user  User @relation("ReferEmail",fields: [userEmail], references: [email])
+  //userId String @map("user_id") 
+  userEmail String @map("user_email") 
+  //group Group @relation("ReferId",fields: [groupId], references: [id])
+  group Group @relation("ReferName",fields: [groupName], references: [name])
+  //groupId String @map("group_id")
+  groupName String @map("group_name")
 }
 
 model Privilege {
   id    String @id @default(cuid())
-  name  String
+  name  String @unique
   privilegeType String @map("privilege_type")
   privilegeContent String? @map("privilege_content")
   description String?
-  groupPrivilege GroupPrivilege[]
+  //groupPrivilege GroupPrivilege[] @relation("ReferId")
+  groupPrivilege GroupPrivilege[] @relation("ReferName")
 }
 
 model GroupPrivilege {
   id    String @id @default(cuid())
-  group Group @relation(fields: [groupId], references: [id])
-  groupId String @map("group_id")
-  privilege Privilege @relation(fields: [privilegeId], references: [id])
-  privilegeId String @map("privilege_id")
+  group Group @relation(fields: [groupName], references: [name])
+  groupName String @map("group_name")
+  //privilege Privilege @relation("ReferId",fields: [privilegeId], references: [id])
+  privilege Privilege @relation("ReferName",fields: [privilegeName], references: [name])
+ // privilegeId String @map("privilege_id")
+  privilegeName String @map("privilege_name")
 }
 
 model VerificationToken {
