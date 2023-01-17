@@ -69,8 +69,8 @@ export default NextAuth({
       session.user.username = session.user.name.split(" ").join().toLocaleLowerCase();
       session.user.uid= token.sub?token.sub:session.user.id;
       const formData = new FormData();
-      formData.append("email", "testing@139.com");
-      formData.append("password", "LiriTesJ");
+      formData.append("email", session.user.email);
+      formData.append("password", process.env.APP_KEY);
 
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
