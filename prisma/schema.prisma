@@ -114,3 +114,22 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Address {
+  id Int @id @default(autoincrement())
+  startAddress String @map("start_address")
+  endAddress String @map("end_address")
+  // 0 white 1 black
+  addressType String @map("address_type")
+  addressDescription String @map("address_description")
+  startIntAddress Int @map("start_int_address")
+  endIntAddress Int @map("end_int_address")
+  protocol String
+  applicant String
+  approver String
+  //0 apply 1 approve 2 be written to fw 3 reject apply 4 apply delete 5 approve delete 6 reject delete 
+  status Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
