@@ -12,14 +12,15 @@ const addressList: string[] = [
 const addressFormat = "8.8.8.8\n192.168.1.0/24\n114.114.114.144-114.114.114.116\n235.235.235.5-7";
 
 
-type AddressProps = {
+export type AddressProps = {
   id: number;
   startAddress: string;
   endAddress: string;
   description: string;
-  startInAddress: number;
+  startIntAddress: number;
   endIntAddress: number;
   applicant: string;
+  isRepeat: boolean;
 }[];
 
 export default function Address() {
@@ -40,7 +41,7 @@ export default function Address() {
     };
 
 
-    const convertAddressList = (addressList: string[]) => {
+    const convertAddressList = async (addressList: string[]) => {
         var ip = require("ip");
         var ipStr = "";
         var addr = [] as AddressProps;
@@ -89,9 +90,10 @@ export default function Address() {
               startAddress: startAddress,
               endAddress: endAddress,
               description: "",
-              startInAddress: ip.toLong(startAddress),
+              startIntAddress: ip.toLong(startAddress),
               endIntAddress: ip.toLong(endAddress),
               applicant: "",
+              isRepeat: false,
             });
           } else {
             //add the ip format error to ipStr to show
@@ -100,6 +102,17 @@ export default function Address() {
         });
         console.log(addr);
         setInfo(ipStr);
+        
+        try {
+          const body = { addr };
+          await fetch("/api/addr", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+        } catch (error) {
+          console.error(error);
+      };
 
     }
 
