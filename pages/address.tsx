@@ -105,14 +105,20 @@ export default function Address() {
         
         try {
           const body = { addr };
-          await fetch("/api/addr", {
+         const  res = await fetch("/api/addr", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
           });
+
+          const parseRes = await res.json();
+          console.log("parseRes")
+          console.log(parseRes);
+
         } catch (error) {
           console.error(error);
       };
+
 
     }
 
