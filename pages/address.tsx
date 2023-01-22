@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
+import axios from "axios";
 
 const addressList: string[] = [
   "8.8.8.8",
@@ -20,7 +21,7 @@ export type AddressProps = {
   startIntAddress: number;
   endIntAddress: number;
   applicant: string;
-  protocol:string;
+  protocol: string;
   isRepeat: boolean;
 }[];
 
@@ -41,10 +42,11 @@ export default function Address() {
     convertAddressList(addressListArray);
   };
 
-  const handleInsertToDatabase = async (
+  const handleInsertToDatabase = (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
+    /*
     try {
       const body = { addressTable };
 
@@ -53,16 +55,31 @@ export default function Address() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-
-      /*
+    */
+    /*
       const parseRes = await res.json();
       setAddressTable(parseRes);
       console.log("parseRes");
       console.log(parseRes);
       */
+    /*
     } catch (error) {
       console.error(error);
     }
+
+  */
+
+    axios({
+      method: "post",
+      url: "/api/addr/insert",
+      data: {addressTable},
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const convertAddressList = async (addressList: string[]) => {
@@ -124,7 +141,7 @@ export default function Address() {
           startIntAddress: ip.toLong(startAddress),
           endIntAddress: ip.toLong(endAddress),
           applicant: "",
-          protocol:"HTTP(S) ONLY",
+          protocol: "HTTP(S) ONLY",
           isRepeat: true,
         });
       } else {
@@ -134,7 +151,7 @@ export default function Address() {
     });
     console.log(addr);
     setInfo(ipStr);
-
+  /*
     try {
       const body = { addr };
       const res = await fetch("/api/addr", {
@@ -150,6 +167,29 @@ export default function Address() {
     } catch (error) {
       console.error(error);
     }
+    */
+//    var dataTable = [] as AddressProps;
+    axios({
+      method: "post",
+      url: "/api/addr",
+      data: {addr},
+    })
+      .then((res) => {
+        console.log(res);
+        console.log("res.data"); 
+        console.log(res.data);
+        setAddressTable(res.data);
+      }
+      )
+      .catch((err) => {
+        console.log(err);
+      }
+      );
+
+
+
+
+
   };
 
   useEffect(() => {}, []);

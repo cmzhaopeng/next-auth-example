@@ -122,8 +122,8 @@ model Address {
   // 0 white 1 black
   addressType String @map("address_type")
   addressDescription String @map("address_description")
-  startIntAddress Int @map("start_int_address")
-  endIntAddress Int @map("end_int_address")
+  startIntAddress BigInt   @map("start_int_address")
+  endIntAddress BigInt @map("end_int_address")
   protocol String
   applicant String
   approver String?
