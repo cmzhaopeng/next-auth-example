@@ -9,6 +9,7 @@ export type AddressItemProps = {
   description: string;
   startIntAddress: number;
   endIntAddress: number;
+  protocol:string;
   applicant: string;
   isRepeat: boolean;
 };

@@ -126,10 +126,10 @@ model Address {
   endIntAddress Int @map("end_int_address")
   protocol String
   applicant String
-  approver String
+  approver String?
   //0 apply 1 approve 2 be written to fw 3 reject apply 4 apply delete 5 approve delete 6 reject delete 
   status Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
 
 }
