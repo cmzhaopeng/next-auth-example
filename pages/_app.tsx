@@ -1,11 +1,15 @@
 
+import "../styles/globals.css";
 import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
+import Layoutt from "../components/Layoutt";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <SessionProvider session={pageProps.session}>
+      <Layoutt>
       <Component {...pageProps} />
+      </Layoutt>
     </SessionProvider>
   );
 };

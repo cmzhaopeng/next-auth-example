@@ -38,52 +38,11 @@ finished
    id, privilege_type, privilege_name, privilege_content, group_id
 finished
 
-
 10. add dict table
    
-   id, code, description,ref_table, ref_column
 
-  I have another table Privilege, and the many to many relation with Group use GroupPrivilege table, if I query a user 's privilege,  how to write the prisma query
+11. replace the style with tailWindCSS
 
-   If you want to query the privileges of a user, you can use the .groups() relation in the Prisma query to traverse the many-to-many relation between User and Group. Here's an example of how you can query the privileges of a user with ID 1:
-
-Copy code
-query {
-  user(where: {id: 1}) {
-    id
-    name
-    groups {
-      id
-      name
-      privileges {
-        id
-        name
-      }
-    }
-  }
-}
-This query returns the user with ID 1, along with their name and the groups they belong to. For each group, it also returns the group's id, name, and all the privileges that are associated with the group via GroupPrivilege table.
-
-You can also filter the privileges based on certain condition using privileges field on Group type by using .privileges(where: {...})
-
-Copy code
-query {
-  user(where: {id: 1}) {
-    id
-    name
-    groups {
-      id
-      name
-      privileges(where: {name_contains: "admin"}) {
-        id
-        name
-      }
-    }
-  }
-}
-This query returns the user with ID 1, along with their name and the groups they belong to. For each group, it also returns the group's id, name, and all the privileges that are associated with the group via GroupPrivilege table but only those privileges that contain 'admin' in their name.
-
-You can use different filters, sorting, pagination options on the privileges field based on your requirement.
-
+12. replace the main page with react-admin-dashboard
 
 
