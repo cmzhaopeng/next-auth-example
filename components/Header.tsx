@@ -107,9 +107,6 @@ const Header: React.FC = () => {
   if (!session) {
     right = (
       <div className="right">
-        <Link href="/api/auth/signin" data-active={isActive("/signup")}>
-          Log in
-        </Link>
         <style jsx>{`
           a {
             text-decoration: none;
@@ -182,9 +179,6 @@ const Header: React.FC = () => {
           </Link>
         )}
         <Menu />
-        <button onClick={() => signOut()}>
-          <a>Log out</a>
-        </button>
         <style jsx>{`
           a {
             text-decoration: none;

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import {
   Bars3CenterLeftIcon,
   PencilIcon,
@@ -9,20 +9,117 @@ import {
 import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition, Popover } from "@headlessui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { signOut, useSession } from "next-auth/react";
 
 export default function TopBar({ showNav, setShowNav }) {
+  const router = useRouter();
+  const isActive: (pathname: string) => boolean = (pathname) =>
+    router.pathname === pathname;
+  const { data: session, status } = useSession();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  let left = (
+    <div className="pl-4 md:pl-16">
+      <Bars3CenterLeftIcon
+        className="h-8 w-8 text-gray-700 cursor-pointer"
+        onClick={() => setShowNav(!showNav)}
+      />
+    </div>
+  );
+
+  let right = null;
+
+  if (!session) {
+    right = (
+      <div className="flex flex-row relative text-left">
+        <div className="inline-flex w-full justify-center items-center">
+          <Link href="/api/auth/signin" data-active={isActive("/signup")}>
+            <span className="hidden md:block font-medium text-gray-700">
+              Log in
+            </span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (session) {
+    right = (
+      <div className="flex flex-row relative text-left">
+        <Menu as="div" className="inline-flex relative  text-left">
+          <div>
+            <Menu.Button className="inline-flex w-full justify-center items-center">
+              <picture>
+                <img
+                  src="/man-smiling.jpg"
+                  className="rounded-full h-8 md:mr-4  border-2 border-white shadow-sm"
+                  alt="profile picture"
+                />
+              </picture>
+              <span className="hidden md:block font-medium text-gray-700">
+                Rest
+              </span>
+              <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
+            </Menu.Button>
+          </div>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform scale-95"
+            enterTo="transform scale-100"
+            leave="transition ease-in duration=75"
+            leaveFrom="transform scale-100"
+            leaveTo="transform scale-95"
+          >
+            <Menu.Items className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-white rounded shadow-sm">
+              <div className="p-1">
+                <Menu.Item>
+                  <Link
+                    href="#"
+                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
+                  >
+                    <PencilIcon className="h-4 w-4 mr-2" />
+                    Edit
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="#"
+                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
+                  >
+                    <CreditCardIcon className="h-4 w-4 mr-2" />
+                    Billing
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="#"
+                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
+                  >
+                    <Cog8ToothIcon className="h-4 w-4 mr-2" />
+                    Settings
+                  </Link>
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Transition>
+        </Menu>
+        <span className="flex-row md:block  md:ml-4  md:mt-1 font-medium text-gray-700">
+          <button onClick={() => signOut()}>Log out</button>
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms] ${
         showNav ? "pl-56" : ""
       }`}
     >
-      <div className="pl-4 md:pl-16">
-        <Bars3CenterLeftIcon
-          className="h-8 w-8 text-gray-700 cursor-pointer"
-          onClick={() => setShowNav(!showNav)}
-        />
-      </div>
+      {left}
       <div className="flex items-center pr-4 md:pr-16">
         <Popover className="relative">
           <Popover.Button className="outline-none mr-5 md:mr-8 cursor-pointer text-gray-700">
@@ -103,64 +200,7 @@ export default function TopBar({ showNav, setShowNav }) {
             </Popover.Panel>
           </Transition>
         </Popover>
-        <Menu as="div" className="relative inline-block text-left">
-          <div>
-            <Menu.Button className="inline-flex w-full justify-center items-center">
-              <picture>
-                <img
-                  src="/man-smiling.jpg"
-                  className="rounded-full h-8 md:mr-4 border-2 border-white shadow-sm"
-                  alt="profile picture"
-                />
-              </picture>
-              <span className="hidden md:block font-medium text-gray-700">
-                Rettson
-              </span>
-              <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
-            </Menu.Button>
-          </div>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform scale-95"
-            enterTo="transform scale-100"
-            leave="transition ease-in duration=75"
-            leaveFrom="transform scale-100"
-            leaveTo="transform scale-95"
-          >
-            <Menu.Items className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-white rounded shadow-sm">
-              <div className="p-1">
-                <Menu.Item>
-                  <Link
-                    href="#"
-                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
-                  >
-                    <PencilIcon className="h-4 w-4 mr-2" />
-                    Edit
-                  </Link>
-                </Menu.Item>
-                <Menu.Item>
-                  <Link
-                    href="#"
-                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
-                  >
-                    <CreditCardIcon className="h-4 w-4 mr-2" />
-                    Billing
-                  </Link>
-                </Menu.Item>
-                <Menu.Item>
-                  <Link
-                    href="#"
-                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
-                  >
-                    <Cog8ToothIcon className="h-4 w-4 mr-2" />
-                    Settings
-                  </Link>
-                </Menu.Item>
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
+        {right}
       </div>
     </div>
   );
