@@ -132,9 +132,10 @@ const Header: React.FC = () => {
     );
   }
   if (session) {
+    /*
     const isAdmin =
       session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-
+*/
     left = (
       <div className="left">
         <Link href="/" className="bold" data-active={isActive("/")}>
@@ -167,18 +168,20 @@ const Header: React.FC = () => {
     );
     right = (
       <div className="right">
+        {/* 
         <p>
           {session.user.name} ({session.user.email}-{gouser}
         </p>
+        */}
         <Link href="/create">
           <button>New post</button>
         </Link>
+        {/*
         {isAdmin && (
           <Link href="/admin">
             <button>Admin</button>
           </Link>
         )}
-        {/*
         <Menu />
         */}
 

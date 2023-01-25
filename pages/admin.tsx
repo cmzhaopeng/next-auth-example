@@ -327,7 +327,6 @@ const handleCloseSnackbar = () => setSnackbar(null);
   return (
     <Layout>
       <div className="page">
-        <h1>Admin</h1>
         <main>
           {/*  
           {props.users.map((user) => (
