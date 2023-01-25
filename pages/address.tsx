@@ -2,7 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
-
+import { selectAuthState, setAuthState } from "../store/authSlice";
+import { useSelector } from "react-redux";
 const addressList: string[] = [
   "8.8.8.8",
   "192.168.1.0/24",
@@ -28,6 +29,7 @@ export type AddressProps = {
 export default function Address() {
   const [addressTable, setAddressTable] = useState<AddressProps>([]);
   const [info, setInfo] = useState<string>("");
+  const authState = useSelector(selectAuthState);
 
   //add a form handle function, when submit the form, call the handleAddressList function
   const handleAddressList = (e: React.FormEvent<HTMLFormElement>) => {
@@ -213,6 +215,7 @@ export default function Address() {
       <div>
         <label onClick={() => setInfo("")}>{info}</label>
       </div>
+      <div>{authState ? "Logged in" : "Not Logged In"}</div>
     </Layout>
   );
 }
