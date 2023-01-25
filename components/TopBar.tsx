@@ -31,6 +31,19 @@ export default function TopBar({ showNav, setShowNav }) {
 
   let right = null;
 
+   if (status === "loading") {
+     right=(
+      <div className="flex flex-row relative text-left">
+      <div className="inline-flex w-full justify-center items-center">
+          <span className="hidden md:block font-medium text-gray-700">
+          Validating session ...
+          </span>
+      </div>
+    </div>
+     )
+
+   }
+
   if (!session) {
     right = (
       <div className="flex flex-row relative text-left">
@@ -59,7 +72,7 @@ export default function TopBar({ showNav, setShowNav }) {
                 />
               </picture>
               <span className="hidden md:block font-medium text-gray-700">
-                Rest
+                {session.user?.name}
               </span>
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>

@@ -178,7 +178,11 @@ const Header: React.FC = () => {
             <button>Admin</button>
           </Link>
         )}
+        {/*
         <Menu />
+        */}
+
+
         <style jsx>{`
           a {
             text-decoration: none;
