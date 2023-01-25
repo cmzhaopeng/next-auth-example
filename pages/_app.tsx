@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
 import Layoutt from "../components/Layoutt";
+import { wrapper } from "../store/store"
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -14,7 +15,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default App;
+export default wrapper.withRedux(App);
 
 
 
