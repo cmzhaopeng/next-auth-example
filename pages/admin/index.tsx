@@ -1,12 +1,12 @@
 // pages/admin.tsx
 
 import React from "react";
-import Layout from "../components/Layout";
+import Layout from "../../components/Layout";
 import { GetServerSideProps } from "next";
 import { useSession, getSession,getCsrfToken } from "next-auth/react";
-import { UserProps } from "./api/user";
+import { UserProps } from "../api/user";
 import { getToken } from "next-auth/jwt";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 import {
   DataGrid,
   GridRowsProp,

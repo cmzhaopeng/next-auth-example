@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Layout from "../components/Layout";
+import Layout from "../../components/Layout";
 import axios from "axios";
-import { selectAuthState, setAuthState } from "../store/authSlice";
+import { selectAuthState, setAuthState } from "../../store/authSlice";
 import { useSelector } from "react-redux";
 const addressList: string[] = [
   "8.8.8.8",
