@@ -23,11 +23,13 @@ import Box from "@mui/material/Box";
 import cuid from "cuid";
 import Alert, { AlertProps } from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-
+import {selectNaviPath,setNaviPath} from  "../../store/naviSlice";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import  DialogActions  from "@mui/material/DialogActions";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 270 },
@@ -81,6 +83,11 @@ const Admin: React.FC<Props> = (props) => {
 
   const [open, setOpen] = React.useState(false);
   const noButtonRef = React.useRef<HTMLButtonElement>(null);
+
+  const dispatch=useDispatch();
+  dispatch(setNaviPath("/admin"));
+
+  console.log(useSelector(selectNaviPath));
 
   const handleGetDataFromBackend = async () => {
      console.log("handleGetDataFromBackend");

@@ -3,13 +3,16 @@ import { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import axios from "axios";
 import { selectAuthState, setAuthState } from "../../store/authSlice";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 const addressList: string[] = [
   "8.8.8.8",
   "192.168.1.0/24",
   "114.114.114.144-114.114.114.116",
   "235.235.235.5-7",
 ];
+
+import {selectNaviPath, setNaviPath} from  "../../store/naviSlice";
+import { NaviPath } from './../../store/naviSlice';
 
 const addressFormat =
   "8.8.8.8\n192.168.1.0/24\n114.114.114.144-114.114.114.116\n235.235.235.5-7";
@@ -30,7 +33,12 @@ export default function Address() {
   const [addressTable, setAddressTable] = useState<AddressProps>([]);
   const [info, setInfo] = useState<string>("");
   const authState = useSelector(selectAuthState);
+  const dispatch = useDispatch();
 
+  dispatch(setNaviPath("/address"))
+  console.log("naviPath:")
+  console.log(useSelector(selectNaviPath))
+  
   //add a form handle function, when submit the form, call the handleAddressList function
   const handleAddressList = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

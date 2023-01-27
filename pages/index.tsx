@@ -10,7 +10,7 @@ import Post, { PostProps } from "../components/Post";
 
 import { selectAuthState, setAuthState } from "../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import {setNaviPath} from  "../store/naviSlice";
 import LoginBtn from "../components/login-btn";
 
 import prisma from "../lib/prisma";
@@ -39,6 +39,10 @@ type Props = {
 const Blog: React.FC<Props> = (props) => {
   const authState = useSelector(selectAuthState);
   const dispatch = useDispatch();
+
+  dispatch(setNaviPath("/"));
+
+
 
   return (
     <>

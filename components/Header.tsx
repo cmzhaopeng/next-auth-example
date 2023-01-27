@@ -4,14 +4,15 @@ import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import Menu from "./Menu";
 import axios from "axios";
+import { selectAuthState, setAuthState } from "../store/authSlice";
+import { selectNaviPath } from "../store/naviSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const menu = [
-
-  { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
-  { name: 'Contact', path: '/contact' },
-]
-
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
+  { name: "Contact", path: "/contact" },
+];
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -22,23 +23,22 @@ const Header: React.FC = () => {
   const [error, setError] = React.useState("");
   const [gouser, setGouser] = React.useState(null);
 
+  const naviPath = useSelector(selectNaviPath);
 
-  const handleGetgodata = async (para:string) => {
+  const handleGetgodata = async (para: string) => {
     //const res = await fetch("api/go", {
-    const res = await fetch("api/go", {
-    });
+    const res = await fetch("api/go", {});
 
     const data2 = await res.json();
 
     console.log(data2);
-    setGouser(data2.Gouser)
+    setGouser(data2.Gouser);
     return data2;
   };
-  
+
   useEffect(() => {
     handleGetgodata("test-para");
   }, []);
-
 
   let left = (
     <div className="left">
@@ -65,48 +65,27 @@ const Header: React.FC = () => {
     );
   }
   if (!session) {
-    right = (
-      <div className="right">
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-        `}</style>
-      </div>
-    );
+    right = <div className="right"></div>;
   }
-
 
   if (session) {
     left = (
       <div className="left">
-        <Link href="/" className="bold" data-active={isActive("/")}>
-          Feed
-        </Link>
-        <span> | </span>
-        <Link href="/drafts" data-active={isActive("/drafts")}>
-          My drafts
-        </Link>
-        <span> | </span>
-         <Link href="/create">
-          <button>New post</button>
-        </Link>
+        {naviPath == "/" && (
+          <div>
+            <Link href="/" className="bold" data-active={isActive("/")}>
+              Feed
+            </Link>
+            <span> | </span>
+            <Link href="/drafts" data-active={isActive("/drafts")}>
+              My drafts
+            </Link>
+            <span> | </span>
+            <Link href="/create">
+              <button>New post</button>
+            </Link>
+          </div>
+        )}
       </div>
     );
   }

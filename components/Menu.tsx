@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { HomeIcon, CreditCardIcon, UserIcon } from "@heroicons/react/24/solid";
+import { useSelector } from "react-redux";
+import { selectNaviPath } from "../store/naviSlice";
 
 export type MenuProps = {
   name: string;
@@ -17,6 +19,7 @@ export default function Menu() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { data: session, status } = useSession();
+  const naviPath=useSelector(selectNaviPath);
 
 
   const handleGetUserPrivilege = async () => {
@@ -78,7 +81,7 @@ export default function Menu() {
             <Link href={item.privilegeContent} key={item.name}>
               <div
                 className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
-                  router.pathname == item.privilegeContent
+                  naviPath == item.privilegeContent
                     ? "bg-orange-100 text-orange-500"
                     : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
                 }`}

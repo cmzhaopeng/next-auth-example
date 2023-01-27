@@ -3,10 +3,13 @@ import Link from "next/link";
 import { HomeIcon, CreditCardIcon, UserIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/router";
 import Menu from "./Menu";
+import { useDispatch,useSelector } from "react-redux";
+import {selectNaviPath} from "../store/naviSlice";
 
 
 const SideBar = forwardRef(({ showNav }, ref) => {
   const router = useRouter();
+  //const dispatch=useDispatch();
 
   return (
     <div ref={ref} className="fixed w-56 h-full bg-white shadow-sm">
@@ -24,7 +27,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
         <Link href="/">
           <div
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
-              router.pathname == "/"
+              useSelector(selectNaviPath) == "/"
                 ? "bg-orange-100 text-orange-500"
                 : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
             }`}
@@ -37,11 +40,11 @@ const SideBar = forwardRef(({ showNav }, ref) => {
             </div>
           </div>
         </Link>
-   
+       {/*
         <Link href="/address">
           <div
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
-              router.pathname == "/address"
+              useSelector(selectNaviPath)  == "/address"
                 ? "bg-orange-100 text-orange-500"
                 : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
             }`}
@@ -54,6 +57,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
             </div>
           </div>
         </Link>
+        */}   
         <Menu />
       </div>
     </div>
