@@ -11,6 +11,8 @@ import { Menu, Transition, Popover } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
+import { selectAuthState, setAuthState } from "../store/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TopBar({ showNav, setShowNav }) {
   const router = useRouter();
@@ -19,6 +21,9 @@ export default function TopBar({ showNav, setShowNav }) {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const authState = useSelector(selectAuthState);
+  const dispatch = useDispatch();
+
 
   let left = (
     <div className="pl-4 md:pl-16">
@@ -45,6 +50,7 @@ export default function TopBar({ showNav, setShowNav }) {
    }
 
   if (!session) {
+    dispatch(setAuthState(false))
     right = (
       <div className="flex flex-row relative text-left">
         <div className="inline-flex w-full justify-center items-center">
@@ -59,6 +65,8 @@ export default function TopBar({ showNav, setShowNav }) {
   }
 
   if (session) {
+    dispatch(setAuthState(true))
+
     right = (
       <div className="flex flex-row relative text-left">
         <Menu as="div" className="inline-flex relative  text-left">

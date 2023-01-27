@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
-
+import Link from "next/link";
 import React from "react";
 import { GetStaticProps } from "next";
 import Layout from "../components/Layout";
@@ -45,6 +45,24 @@ const Blog: React.FC<Props> = (props) => {
       <Layout>
         <div className="page">
           <h1 className="text-3xl font-bold underline">Public Feed</h1>
+        <div>  
+
+          {/*}
+       <Link href="/" className="bold" data-active={authState}>
+          Feed
+        </Link>
+        <span> | </span>
+        <Link href="/drafts" data-active={authState}>
+          My drafts
+        </Link>
+        <span> | </span>
+        <Link href="/create" data-active={authState}>
+          New Post
+        </Link>
+  */}
+
+        </div>
+
 
           <main className={styles.main}>
             {props.feed.map((post) => (
@@ -54,7 +72,9 @@ const Blog: React.FC<Props> = (props) => {
             ))}
           </main>
         </div>
+          {/*}
         <div>
+
           <div>{authState ? "Logged in" : "Not Logged In"}</div>
           <button
             onClick={() =>
@@ -66,19 +86,8 @@ const Blog: React.FC<Props> = (props) => {
             {authState ? "Logout" : "LogIn"}
           </button>
         </div>
+        */}
 
-        <style jsx>{`
-          .post {
-            background: white;
-            transition: box-shadow 0.1s ease-in;
-          }
-          .post:hover {
-            box-shadow: 1px 1px 3px #aaa;
-          }
-          .post + .post {
-            margin-top: 2rem;
-          }
-        `}</style>
       </Layout>
     </>
   );
