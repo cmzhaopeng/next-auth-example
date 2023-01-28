@@ -40,7 +40,7 @@ export default function TopBar({ showNav, setShowNav }) {
      right=(
       <div className="flex flex-row relative text-left">
       <div className="inline-flex w-full justify-center items-center">
-          <span className="hidden md:block font-medium text-gray-700">
+          <span className="md:block font-medium text-gray-700">
           Validating session ...
           </span>
       </div>
@@ -55,7 +55,7 @@ export default function TopBar({ showNav, setShowNav }) {
       <div className="flex flex-row relative text-left">
         <div className="inline-flex w-full justify-center items-center">
           <Link href="/api/auth/signin" data-active={isActive("/signup")}>
-            <span className="hidden md:block font-medium text-gray-700">
+            <span className="md:block font-medium text-gray-700">
               Log in
             </span>
           </Link>

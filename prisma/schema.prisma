@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,10 +12,9 @@ model Post {
   title     String
   content   String?
   published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
   authorId  String?
+  author    User?   @relation(fields: [authorId], references: [id])
 }
-
 
 model Account {
   id                 String  @id @default(cuid())
@@ -35,8 +31,7 @@ model Account {
   session_state      String?
   oauth_token_secret String?
   oauth_token        String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -50,60 +45,49 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
-  posts         Post[]
   accounts      Account[]
+  posts         Post[]
   sessions      Session[]
- // userGroup  UserGroup[] @relation("ReferId")
-  userGroup UserGroup[] @relation("ReferEmail")
-
-
+  userGroup     UserGroup[] @relation("ReferEmail")
 }
 
 model Group {
-  id    String @id @default(cuid())
-  name  String @unique
-  groupDescription String? @map("group_description")
-  //userGroup UserGroup[] @relation("ReferId")
-  userGroup UserGroup[] @relation("ReferName")
-
-  groupPrivilege GroupPrivilege[]
+  id               String           @id @default(cuid())
+  name             String           @unique
+  groupDescription String?          @map("group_description")
+  groupPrivilege   GroupPrivilege[]
+  userGroup        UserGroup[]      @relation("ReferName")
 }
 
 model UserGroup {
-  id    String @id @default(cuid())
- // user  User @relation("ReferId",fields: [userId], references: [id])
-  user  User @relation("ReferEmail",fields: [userEmail], references: [email])
-  //userId String @map("user_id") 
-  userEmail String @map("user_email") 
-  //group Group @relation("ReferId",fields: [groupId], references: [id])
-  group Group @relation("ReferName",fields: [groupName], references: [name])
-  //groupId String @map("group_id")
+  id        String @id @default(cuid())
+  userEmail String @map("user_email")
   groupName String @map("group_name")
+  group     Group  @relation("ReferName", fields: [groupName], references: [name])
+  user      User   @relation("ReferEmail", fields: [userEmail], references: [email])
 }
 
 model Privilege {
-  id    String @id @default(cuid())
-  name  String @unique
-  privilegeType String @map("privilege_type")
-  privilegeContent String? @map("privilege_content")
-  description String?
-  //groupPrivilege GroupPrivilege[] @relation("ReferId")
-  groupPrivilege GroupPrivilege[] @relation("ReferName")
+  id               String           @id @default(cuid())
+  name             String           @unique
+  privilegeType    String           @map("privilege_type")
+  privilegeContent String?          @map("privilege_content")
+  description      String?
+  sort_no          Int?
+  groupPrivilege   GroupPrivilege[] @relation("ReferName")
 }
 
 model GroupPrivilege {
-  id    String @id @default(cuid())
-  group Group @relation(fields: [groupName], references: [name])
-  groupName String @map("group_name")
-  //privilege Privilege @relation("ReferId",fields: [privilegeId], references: [id])
-  privilege Privilege @relation("ReferName",fields: [privilegeName], references: [name])
- // privilegeId String @map("privilege_id")
-  privilegeName String @map("privilege_name")
+  id            String    @id @default(cuid())
+  groupName     String    @map("group_name")
+  privilegeName String    @map("privilege_name")
+  group         Group     @relation(fields: [groupName], references: [name])
+  privilege     Privilege @relation("ReferName", fields: [privilegeName], references: [name])
 }
 
 model VerificationToken {
@@ -116,20 +100,17 @@ model VerificationToken {
 }
 
 model Address {
-  id Int @id @default(autoincrement())
-  startAddress String @map("start_address")
-  endAddress String @map("end_address")
-  // 0 white 1 black
-  addressType String @map("address_type")
-  addressDescription String @map("address_description")
-  startIntAddress BigInt   @map("start_int_address")
-  endIntAddress BigInt @map("end_int_address")
-  protocol String
-  applicant String
-  approver String?
-  //0 apply 1 approve 2 be written to fw 3 reject apply 4 apply delete 5 approve delete 6 reject delete 
-  status Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime? @updatedAt
-
+  id                 Int       @id @default(autoincrement())
+  startAddress       String    @map("start_address")
+  endAddress         String    @map("end_address")
+  addressType        String    @map("address_type")
+  addressDescription String    @map("address_description")
+  startIntAddress    BigInt    @map("start_int_address")
+  endIntAddress      BigInt    @map("end_int_address")
+  protocol           String
+  applicant          String
+  approver           String?
+  status             Int
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime? @updatedAt
 }
