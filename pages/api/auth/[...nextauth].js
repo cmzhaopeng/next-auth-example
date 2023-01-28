@@ -59,6 +59,9 @@ export default NextAuth({
       },
     }),
   ],
+  pages: {
+    signIn: "/auth/signin",
+  },
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
   session: { strategy: "jwt" },

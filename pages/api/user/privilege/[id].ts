@@ -7,9 +7,11 @@ export default async function handle(req, res) {
     const session = await getSession({ req });
 
     if (!session) {
-        res.status(401).json({
-            message:
-                "You must be signed in to view the protected content on this page.",
+        res.json({
+            name:null,
+            privilege: null,
+            //message:
+            //    "You must be signed in to view the protected content on this page.",
         });
         return;
     }

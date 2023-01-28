@@ -31,21 +31,33 @@ export default function Menu() {
       setMenu(data);
       setIsLoading(false);
     } catch (error) {
-      setError(error);
+      //setError(error);
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
     handleGetUserPrivilege();
-  }, []);
+  }, [session]);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (isLoading) return <p></p>;
+  if (error) return <p></p>;
 
   let admin=null;
 
+  if(!session){
+
+    return (
+      <>
+       <span></span> 
+      </>
+    )
+  }
+
+
+
   if (session) {
+    //handleGetUserPrivilege();
     const isAdmin =
       session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
       if (isAdmin) {
