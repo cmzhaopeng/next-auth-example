@@ -49,3 +49,7 @@ finished
 13. Header.tsx according the menu and user privilege to show the sub menu, and change the sub menu background color when the sub menu is selected.
 
 14. adjust the pages directory structure, add pages/admin, pages/post, pages/address, when the browser in the admin page, the SideBar menu item will get the link string, and according the left string change the background.
+
+15. the menu item in the database privilege table, should have sort number, and the menu item in the SideBar should be sort by the sort number.
+
+
