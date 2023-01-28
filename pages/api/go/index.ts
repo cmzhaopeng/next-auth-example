@@ -1,8 +1,9 @@
 // pages/api/go/index.ts
 
 import { getSession } from "next-auth/react";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handle(req, res) {
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   // At this position, you should have a session object with a user object
   // ensure the user is authenticated and has admin privileges
   const session = await getSession({ req });
@@ -22,14 +23,14 @@ export default async function handle(req, res) {
     });
     return;
   }
- 
+
   console.log(session)
-  
+
   const response = await fetch("http://localhost:8080/home", {
     method: "POST",
     headers: {
       Authorization:
-        "Bearer "+session.jwtToken,
+        "Bearer " + session.jwtToken,
     },
   });
 

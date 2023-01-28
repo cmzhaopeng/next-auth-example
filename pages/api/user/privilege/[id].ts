@@ -1,8 +1,10 @@
-// api/user/privilege/[id].ts import prisma from "../../../../lib/prisma";
+// api/user/privilege/[id].ts 
+import prisma from "../../../../lib/prisma";
 import { getSession } from "next-auth/react";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handle(req, res) {
-    const menu = req.query.id;
+export default async function handle(req:NextApiRequest, res:NextApiResponse) {
+    const menu = req.query.id as string;
 
     const session = await getSession({ req });
 

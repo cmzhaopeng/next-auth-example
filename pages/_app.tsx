@@ -2,15 +2,15 @@
 import "../styles/globals.css";
 import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
-import Layoutt from "../components/Layoutt";
+import Layout from "../components/LayoutMain";
 import { wrapper } from "../store/store"
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <SessionProvider session={pageProps.session}>
-      <Layoutt>
+      <Layout>
       <Component {...pageProps} />
-      </Layoutt>
+      </Layout>
     </SessionProvider>
   );
 };

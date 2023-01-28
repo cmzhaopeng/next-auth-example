@@ -3,9 +3,10 @@ import { AddressProps } from "../../address";
 import prisma from "../../../lib/prisma";
 import { AddressItemProps } from "./index";
 import {getSession} from "next-auth/react";
+import { NextApiRequest, NextApiResponse } from "next";
 
 
-export default async function handle(req, res) {
+export default async function handle(req:NextApiRequest, res:NextApiResponse) {
     const session = await getSession({ req });
     const { addressTable } = req.body;
 

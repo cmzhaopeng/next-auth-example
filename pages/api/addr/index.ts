@@ -1,6 +1,7 @@
 //pages/api/addr/index.ts
 import { AddressProps } from "../../address";
 import prisma from "../../../lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export type AddressItemProps = {
   id: number;
@@ -14,7 +15,7 @@ export type AddressItemProps = {
   isRepeat: boolean;
 };
 
-export default async function handle(req, res) {
+export default async function handle(req:NextApiRequest, res:NextApiResponse) {
   const { addr } = req.body;
   //var resAddr: AddressProps = [];
 

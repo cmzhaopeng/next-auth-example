@@ -2,7 +2,7 @@
 
 import { getSession } from "next-auth/react";
 import prisma from "../../../lib/prisma";
-
+import { NextApiRequest, NextApiResponse } from "next";
 // POST /api/user
 
 export type UserProps = {
@@ -12,7 +12,7 @@ export type UserProps = {
   image: string;
 };
 
-export default async function handle(req, res) {
+export default async function handle(req:NextApiRequest, res:NextApiResponse) {
   // At this position, you should have a session object with a user object
   // ensure the user is authenticated and has admin privileges
   const session = await getSession({ req });

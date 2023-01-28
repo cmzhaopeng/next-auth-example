@@ -1,9 +1,9 @@
 // pages/api/publish/[id].ts
 
 import prisma from "../../../lib/prisma";
-
-export default async function handle(req, res) {
-    const id= req.query.id;
+import { NextApiRequest, NextApiResponse } from "next";
+export default async function handle(req:NextApiRequest, res:NextApiResponse) {
+    const id= req.query.id as string;
     const user = await prisma.user.findUnique({
         where: { id: id },
     });
