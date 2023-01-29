@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import axios from "axios";
 import { selectAuthState, setAuthState } from "../../store/authSlice";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 const addressList: string[] = [
   "8.8.8.8",
   "192.168.1.0/24",
@@ -11,8 +11,8 @@ const addressList: string[] = [
   "235.235.235.5-7",
 ];
 
-import {selectNaviPath, setNaviPath} from  "../../store/naviSlice";
-import { NaviPath } from './../../store/naviSlice';
+import { selectNaviPath, setNaviPath } from "../../store/naviSlice";
+import { NaviPath } from "./../../store/naviSlice";
 
 const addressFormat =
   "8.8.8.8\n192.168.1.0/24\n114.114.114.144-114.114.114.116\n235.235.235.5-7";
@@ -34,27 +34,26 @@ export default function Address() {
   const [info, setInfo] = useState<string>("");
   const authState = useSelector(selectAuthState);
   const dispatch = useDispatch();
+  const [input, setInput] = useState("");
 
-  dispatch(setNaviPath("/address"))
-  console.log("naviPath:")
-  console.log(useSelector(selectNaviPath))
-  
+  dispatch(setNaviPath("/address"));
+  console.log("naviPath:");
+  console.log(useSelector(selectNaviPath));
+
   //add a form handle function, when submit the form, call the handleAddressList function
-  const handleAddressList = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddressList = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const target = e.target as typeof e.target & {
-      addressList: { value: string };
-    };
-    const addressList = target.addressList.value;
+    //const target = e.target as typeof e.target & {
+    //  addressList: { value: string };
+    // };
+    const addressList = input; //target.addressList.value;
     //convert the addressList to array, one line one item
     var addressListArray = addressList.split("\n");
     //call the convertAddressList function to convert the addressListArray to addressTable
     convertAddressList(addressListArray);
   };
 
-  const handleInsertToDatabase = (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleInsertToDatabase = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     /*
     try {
@@ -82,7 +81,7 @@ export default function Address() {
     axios({
       method: "post",
       url: "/api/addr/insert",
-      data: {addressTable},
+      data: { addressTable },
     })
       .then((res) => {
         console.log(res);
@@ -161,69 +160,65 @@ export default function Address() {
     });
     console.log(addr);
     setInfo(ipStr);
-  /*
-    try {
-      const body = { addr };
-      const res = await fetch("/api/addr", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      const parseRes = await res.json();
-      setAddressTable(parseRes);
-      console.log("parseRes");
-      console.log(parseRes);
-    } catch (error) {
-      console.error(error);
-    }
-    */
-//    var dataTable = [] as AddressProps;
     axios({
       method: "post",
       url: "/api/addr",
-      data: {addr},
+      data: { addr },
     })
       .then((res) => {
         console.log(res);
-        console.log("res.data"); 
+        console.log("res.data");
         console.log(res.data);
         setAddressTable(res.data);
-      }
-      )
+      })
       .catch((err) => {
         console.log(err);
-      }
-      );
-
-
-
-
-
+      });
   };
 
   useEffect(() => {}, []);
 
   return (
-    <Layout>
-      {/* add a form with a textarea to input the ip address list and a submit button */}
-      <form onSubmit={handleAddressList}>
-        <textarea
-          name="addressList"
-          id="addressList"
-          cols={30}
-          rows={10}
-          placeholder={addressFormat}
-        ></textarea>
-        <button type="submit">submit</button>
-        <button onClick={handleInsertToDatabase}>insert to database</button>
-      </form>
+    <>
+      <div className="flex border-b border-gray-200 space-x-3 ">
+        <img src="/ip.png" alt="ip" className="h-11 w-11 " />
 
-      <p>{addressList}</p>
-      <div>
-        <label onClick={() => setInfo("")}>{info}</label>
+        <div className="w-full divide-y divide-gray-200">
+          <div className="">
+            <textarea
+              className="w-full border-none focus:ring-0 text-lg placeholder-gray-300 tracking-wide min-h-[50px] text-gray-700 focus:outline-none "
+              name="addressList"
+              id="addressList"
+              rows={4}
+              placeholder={addressFormat}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="flex items-center justify-between pt-2.5">
+            <button
+              className="bg-orange-500 text-white px-4 py-1.5 rounded-full font-bold shadow-md hover:bg-orange-300"
+              onClick={handleAddressList}
+            >
+              {" "}
+              Verify IP Address{" "}
+            </button>
+            <button
+              className="bg-orange-500 text-white px-4 py-1.5 rounded-full font-bold shadow-md hover:bg-orange-300"
+              onClick={handleInsertToDatabase}
+            >
+              insert to database
+            </button>
+          </div>
+          {/*
+          <p>{addressList}</p>
+           */}
+        </div>
+
+        <div>
+          <label onClick={() => setInfo("")}>{info}</label>
+        </div>
       </div>
-      <div>{authState ? "Logged in" : "Not Logged In"}</div>
-    </Layout>
+    </>
   );
 }
