@@ -19,19 +19,26 @@ export default function signin({ csrfToken }) {
             </button>
           </form>
           <p className="mt-10"/>
-          <form action="/api/auth/callback/credentials" method="POST">
+          <form action="/api/auth/callback/credentials" method="POST" className="flex item-center mr-2">
             <input type="hidden" name="csrfToken" value={csrfToken} />
+            <div className="flex-row">
+
+            <div>
+
               <label className="ml-12" > uid </label>
 
-              <input className="border-blue-500 placeholder-blue-500 focus:border-blue-500" name="username"
-                id="input-username-for-credentials-provider" type="text"  label="uid" />
-            <div className="mt-4">
-              <label  for="input-password-for-credentials-provider"> password </label>
-              <input name="password" id="input-password-for-credentials-provider"
-                type="password" placeholder label="password"
+              <input className="border-none bg-blue-100 flex-2 focus:ring-0 focus:outline-none" name="username"
+                id="input-username-for-credentials-provider" type="text"  label="uid"  placeholder="Enter you uid..."/>
+            </div>
+            <div className="mt-5">
+
+              <label for="input-password-for-credentials-provider"> password </label>
+              <input className="border-none bg-blue-100 flex-2 focus:ring-0 focus:outline-none" name="password" id="input-password-for-credentials-provider"
+                type="password" label="password"
               />
             </div>
             <button className="bg-red-400  ml-3 mt-6 rounded-lg p-3 text-white hover:bg-red-500" type="submit">Sign in with LDAP</button>
+            </div>
           </form>
         </div>
       </div>

@@ -99,7 +99,7 @@ export default function Menu() {
                 }`}
               >
                 <div className="mr-2">
-                  <svg className="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                  <svg className="h-5 w-5 fill-current"  viewBox="0 0 24 24">
                     <path d={item.description} />
                     </svg>
 
