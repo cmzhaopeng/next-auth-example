@@ -102,7 +102,26 @@ export default function Address() {
 
   const handleInsertToDatabase = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    console.log(rows);
+    if(rows.length===0){
+      setInfo("Please input the address list!");
+      return;
+    }
+    let hasNull=false;
+    rows.map((item) => { 
+      if(item.description===""){
+        setInfo("Please input the description!");
+        hasNull=true;
+      }
+      if(item.isRepeat){
+        setInfo("The address is duplicated!");
+        hasNull=true;
+      }
+    });
 
+    if (hasNull) return;
+
+    let addressTable=rows;
     axios({
       method: "post",
       url: "/api/addr/insert",
@@ -114,12 +133,19 @@ export default function Address() {
       .catch((err) => {
         console.log(err);
       });
+    setInfo("The addresses are submit!")
+    setAddressTable([]);
+    setRows([]);
   };
 
   const convertAddressList = async (addressList: string[]) => {
     var ip = require("ip");
     var ipStr = "";
     var addr = [] as AddressProps;
+    addressList=addressList.filter((item)=>item!=="");
+    addressList=[...new Set(addressList)];
+
+
     addressList.map((item) => {
       //replace item's space to empty
       item = item.replace(/\s+/g, "");
@@ -202,6 +228,20 @@ export default function Address() {
       });
   };
 
+  const processRowUpdate=(newRow: GridRowModel)=>{
+     
+    console.log("newRow");
+    console.log(newRow);
+    const fr = rows.find((row) => row.id === newRow.id);
+    if (fr) {
+      fr.description = newRow.description;
+      fr.protocol = newRow.protocol;
+    }
+    setRows([...rows]);
+    return newRow;
+
+  }
+
   useEffect(() => {}, []);
 
   return (
@@ -264,12 +304,10 @@ export default function Address() {
           rows={rows}
           columns={columns}
           pageSize={5}
+          processRowUpdate={processRowUpdate}
+          experimentalFeatures={{ newEditingApi: true }}
           getRowClassName={(params) =>`super-app-theme--${params.row.isRepeat ? 'repeat' : 'notRepeat'}`}
-          getCellClassName={(params:GridCellParams) => {
-            if (params.field!=="description" ) {
-              return '';
-            }
-            return params.value==="" ? 'super-app-theme--isnull' : 'hasValue'}}
+        
           />
 
       </Box>

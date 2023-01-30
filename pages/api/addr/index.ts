@@ -57,12 +57,14 @@ export default async function handle(req:NextApiRequest, res:NextApiResponse) {
 
     if (address) {
       console.log("address already exist");
+      item.description = address.addressDescription;
+      item.protocol = address.protocol;
       item.isRepeat = true;
    //   resAddr.push(item);
     } else {
       console.log("address does not exist");
       item.isRepeat = false;
-      item.description = "";
+     // item.description = "";
     //  resAddr.push(item);
     }
     console.log("in map item");

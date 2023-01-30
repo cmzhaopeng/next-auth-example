@@ -57,3 +57,24 @@ You need to select the svg icon that has the same viewBox size as the other icon
 
 
 16. add TodoList model, add TodoList Notifications and link, and add the TodoList component in the TodoList page. 
+
+
+  {/*
+          getCellClassName={(params:GridCellParams) => {
+            if (params.field!=="description" ) {
+              return '';
+            }
+            return params.value==="" ? 'super-app-theme--isnull' : 'hasValue'}}
+          */}
+
+
+
+    let hasNull=false;
+    rows.map((item) => { 
+      if(item.description===""){
+        setInfo("Please input the description!");
+        hasNull=true;
+      }
+    });
+
+    if (hasNull) return;

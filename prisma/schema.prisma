@@ -101,8 +101,8 @@ model VerificationToken {
 
 model Address {
   id                 Int       @id @default(autoincrement())
-  startAddress       String    @map("start_address")
-  endAddress         String    @map("end_address")
+  startAddress       String    @unique @map("start_address")
+  endAddress         String    @unique @map("end_address")
   addressType        String    @map("address_type")
   addressDescription String    @map("address_description")
   startIntAddress    BigInt    @map("start_int_address")
