@@ -143,8 +143,9 @@ export default function TopBar({ showNav, setShowNav }) {
       {left}
       <div className="flex items-center pr-4 md:pr-16">
         <Popover className="relative">
-          <Popover.Button className="outline-none mr-5 md:mr-8 cursor-pointer text-gray-700">
+          <Popover.Button className="flex outline-none mr-5 md:mr-8 cursor-pointer text-gray-700">
             <BellIcon className="h-6 w-6" />
+            <p className="bg-red-500 text-white rounded-full w-6 h-6 ">4</p>
           </Popover.Button>
           <Transition
             as={Fragment}
@@ -164,19 +165,21 @@ export default function TopBar({ showNav, setShowNav }) {
                   </a>
                 </div>
                 <div className="mt-4 grid gap-4 grid-cols-1 overflow-hidden">
+                    <Link href="/address">
                   <div className="flex">
                     <div className="rounded-full shrink-0 bg-green-200 h-8 w-8 flex items-center justify-center">
                       <CheckIcon className="h-4 w-4 text-green-600" />
                     </div>
                     <div className="ml-4">
                       <p className="font-medium text-gray-700">
-                        Notification Title
+                        Address Added
                       </p>
                       <p className="text-sm text-gray-500 truncate">
                         Test Notification text for design
                       </p>
                     </div>
                   </div>
+                    </Link>
                   <div className="flex">
                     <div className="rounded-full shrink-0 bg-green-200 h-8 w-8 flex items-center justify-center">
                       <CheckIcon className="h-4 w-4 text-green-600" />

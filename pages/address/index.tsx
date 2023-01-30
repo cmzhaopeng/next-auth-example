@@ -55,28 +55,6 @@ export default function Address() {
 
   const handleInsertToDatabase = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    /*
-    try {
-      const body = { addressTable };
-
-        const res = await fetch("/api/addr/insert", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-    */
-    /*
-      const parseRes = await res.json();
-      setAddressTable(parseRes);
-      console.log("parseRes");
-      console.log(parseRes);
-      */
-    /*
-    } catch (error) {
-      console.error(error);
-    }
-
-  */
 
     axios({
       method: "post",
@@ -155,7 +133,7 @@ export default function Address() {
         });
       } else {
         //add the ip format error to ipStr to show
-        ipStr = ipStr + "error ip format" + item;
+        ipStr = ipStr + "Error ip format" + item;
       }
     });
     console.log(addr);
@@ -214,10 +192,14 @@ export default function Address() {
           <p>{addressList}</p>
            */}
         </div>
-
-        <div>
-          <label onClick={() => setInfo("")}>{info}</label>
+        { info!=="" &&
+        <div className="bg-orange-300 rounded w-124 text-gray font-bold shadow-md hover:bg-orange-300"  >
+           <div className="pt-1 text-left space-y-4">
+          <p className="p-8" 
+          onClick={() => setInfo("")}>{info}</p>
         </div>
+        </div>
+         } 
       </div>
     </>
   );
