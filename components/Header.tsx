@@ -28,13 +28,13 @@ const Header: React.FC = () => {
 
   const handleGetgodata = async (para: string) => {
     //const res = await fetch("api/go", {
-    const res = await fetch("api/go", {});
+    //const res = await fetch("api/go", {});
 
-    const data2 = await res.json();
+    //const data2 = await res.json();
 
-    console.log(data2);
-    setGouser(data2.Gouser);
-    return data2;
+    //console.log(data2);
+    //setGouser(data2.Gouser);
+    //return data2;
   };
 
   useEffect(() => {
