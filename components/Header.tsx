@@ -92,6 +92,10 @@ const Header: React.FC = () => {
             <Link href="/address" className="bold" data-active={isActive("/address")}>
               {Constants.ADDRESS}
             </Link>
+            <span> | </span>
+            <Link href="/address/status" className="bold" data-active={isActive("/address/status")}>
+              {Constants.ADDRESS_STATUS}
+            </Link>
           
           </>
           )}
