@@ -90,9 +90,6 @@ export default function Address() {
   //add a form handle function, when submit the form, call the handleAddressList function
   const handleAddressList = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    //const target = e.target as typeof e.target & {
-    //  addressList: { value: string };
-    // };
     const addressList = input; //target.addressList.value;
     //convert the addressList to array, one line one item
     var addressListArray = addressList.split("\n");
@@ -246,7 +243,9 @@ export default function Address() {
 
   return (
     <>
-      <div className="flex border-b border-gray-200 space-x-3 ">
+    <Layout>
+
+      <div className="flex border-b border-gray-200 space-x-3 mt-3">
         <img src="/ip.png" alt="ip" className="h-11 w-11 " />
 
         <div className="w-full divide-y divide-gray-200">
@@ -313,7 +312,7 @@ export default function Address() {
       </Box>
 
       </div>
-
+    </Layout>
     </>
   );
 }

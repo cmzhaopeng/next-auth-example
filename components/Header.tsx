@@ -7,6 +7,7 @@ import axios from "axios";
 import { selectAuthState, setAuthState } from "../store/authSlice";
 import { selectNaviPath } from "../store/naviSlice";
 import { useDispatch, useSelector } from "react-redux";
+import {Constants} from "../pages/util";
 
 const menu = [
   { name: "Home", path: "/" },
@@ -86,6 +87,15 @@ const Header: React.FC = () => {
             </Link>
           </div>
         )}
+        {naviPath=="/address" && (
+          <>
+            <Link href="/address" className="bold" data-active={isActive("/address")}>
+              {Constants.ADDRESS}
+            </Link>
+          
+          </>
+          )}
+
       </div>
     );
   }
