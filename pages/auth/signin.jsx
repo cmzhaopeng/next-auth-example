@@ -1,6 +1,7 @@
 import React from "react";
 
-import { getCsrfToken } from "next-auth/react";
+import { getCsrfToken, getProviders,signIn } from "next-auth/react";
+
 
 
 
@@ -15,9 +16,9 @@ export default function signin({ csrfToken }) {
           alt=""
         />
         <div className="">
-          <form action="/api/auth/signin/github" method="POST">
+          <form action="/" method="POST">
             <input type="hidden" name="csrfToken" value={csrfToken} />
-            <input type="hidden" name="callbackUrl" value="http://localhost:3000/address" />
+            <input type="hidden" name="callbackUrl" value="/" />
             <button type="submit" className="bg-red-400 mt-6 rounded-lg p-3 text-white hover:bg-red-500">
               <span>Sign in with GitHub</span>
             </button>
@@ -51,9 +52,11 @@ export default function signin({ csrfToken }) {
 }
 
 export async function getServerSideProps(context) {
+  
   return {
     props: {
       csrfToken: await getCsrfToken(context),
+    
     },
   };
 }

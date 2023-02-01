@@ -59,22 +59,9 @@ You need to select the svg icon that has the same viewBox size as the other icon
 16. add TodoList model, add TodoList Notifications and link, and add the TodoList component in the TodoList page. 
 
 
-  {/*
-          getCellClassName={(params:GridCellParams) => {
-            if (params.field!=="description" ) {
-              return '';
-            }
-            return params.value==="" ? 'super-app-theme--isnull' : 'hasValue'}}
-          */}
+17. after npm run build, you need modify the .env file such as NEXTAUTH_URL=http://192.168.2.55:3000, but can't access in localhost, when use ldap login. if you access from localhost, you need modify the .env file such as NEXTAUTH_URL=http://127.0.0.1:3000, not NEXTAUTH_URL=http://localhost:3000,  https://github.com/nextauthjs/next-auth/discussions/4870 Keep getting CLIENT_FETCH_ERROR in production. NEXTAUTH_URL is set #4870
+
+if you use oauth, it has other problem.
 
 
-
-    let hasNull=false;
-    rows.map((item) => { 
-      if(item.description===""){
-        setInfo("Please input the description!");
-        hasNull=true;
-      }
-    });
-
-    if (hasNull) return;
+    
