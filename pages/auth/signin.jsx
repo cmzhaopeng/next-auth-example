@@ -1,5 +1,9 @@
 import React from "react";
+
 import { getCsrfToken } from "next-auth/react";
+
+
+
 
 export default function signin({ csrfToken }) {
   return (
@@ -28,13 +32,13 @@ export default function signin({ csrfToken }) {
               <label className="ml-12" > uid </label>
 
               <input className="border-none bg-blue-100 flex-2 focus:ring-0 focus:outline-none" name="username"
-                id="input-username-for-credentials-provider" type="text"  label="uid"  placeholder="Enter you uid..."/>
+                id="input-username-for-credentials-provider" type="text"   placeholder="Enter you uid..."/>
             </div>
             <div className="mt-5">
 
-              <label for="input-password-for-credentials-provider"> password </label>
+              <label > password </label>
               <input className="border-none bg-blue-100 flex-2 focus:ring-0 focus:outline-none" name="password" id="input-password-for-credentials-provider"
-                type="password" label="password"
+                type="password" 
               />
             </div>
             <button className="bg-red-400  ml-3 mt-6 rounded-lg p-3 text-white hover:bg-red-500" type="submit">Sign in with LDAP</button>

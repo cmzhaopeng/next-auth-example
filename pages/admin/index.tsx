@@ -91,7 +91,7 @@ const Admin: React.FC<Props> = (props) => {
 
   const handleGetDataFromBackend = async () => {
      console.log("handleGetDataFromBackend");
-     if(session) console.log(session.access_token);
+ 
   }
 
 

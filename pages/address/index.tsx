@@ -140,7 +140,13 @@ export default function Address() {
     var ipStr = "";
     var addr = [] as AddressProps;
     addressList=addressList.filter((item)=>item!=="");
-    addressList=[...new Set(addressList)];
+    //addressList=[...new Set(addressList)];
+
+    const addSet = new Set<string>();
+    addressList.map((item) => {
+      addSet.add(item);
+    });
+    addressList = Array.from(addSet);
 
 
     addressList.map((item) => {

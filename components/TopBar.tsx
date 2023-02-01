@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState,FC } from "react";
 import {
   Bars3CenterLeftIcon,
   PencilIcon,
@@ -12,9 +12,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import { selectAuthState, setAuthState } from "../store/authSlice";
+
 import { useDispatch, useSelector } from "react-redux";
 
-export default function TopBar({ showNav, setShowNav }) {
+type  ShowNaviProp ={
+  showNav: boolean;
+  setShowNav: (showNav: boolean) => void;
+}
+
+
+const  TopBar:FC<ShowNaviProp>=({ showNav, setShowNav })=> {
   const router = useRouter();
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
@@ -229,3 +236,6 @@ export default function TopBar({ showNav, setShowNav }) {
     </div>
   );
 }
+
+
+export default TopBar;

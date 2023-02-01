@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "downlevelIteration": false,
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,6 +16,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/SideBar.tsx", "components/SideBar.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/SideBar.tsx",  "pages/auth/signin.jsx", "pages/api/go/index.js", "pages/api/go/index.js"],
   "exclude": ["node_modules"]
 }

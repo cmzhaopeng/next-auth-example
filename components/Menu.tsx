@@ -89,7 +89,7 @@ export default function Menu() {
       {admin} 
       {menu.map(
         (item) => (
-          <div>
+          <div key={item.name}>
             <Link href={item.privilegeContent} key={item.name}>
               <div
                 className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
@@ -104,7 +104,7 @@ export default function Menu() {
                     </svg>
 
                 </div>
-                <div>
+                <div>                
                   <p>{item.name}</p>
                 </div>
               </div>

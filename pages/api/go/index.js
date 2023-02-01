@@ -3,7 +3,8 @@
 import { getSession } from "next-auth/react";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+
+export default async function handle(req, res) {
   // At this position, you should have a session object with a user object
   // ensure the user is authenticated and has admin privileges
   const session = await getSession({ req });

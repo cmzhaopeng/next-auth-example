@@ -21,13 +21,13 @@ export type AddressProps = {
     endAddress: string;
     addressType: string; 
     addressDescription: string;
-    startIntAddress:number;
-    endIntAddress:number;
+    startIntAddress:string;
+    endIntAddress:string;
     applicant: string;
     protocol: string;
     approver: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
     status: number;
   }
   function getCount(params: GridValueGetterParams) {
@@ -39,7 +39,7 @@ export type AddressProps = {
       return '';
     }
     let date= new Date(params.row.createdAt);
-    let formatDate = date.getFullYear()+"/"+date.getMonth()+"/"+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
+    let formatDate = date.getFullYear()+"/"+date.getMonth()+1+"/"+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
     return formatDate;
   }
   function getFormatDateUpdated(params:GridValueGetterParams) {
@@ -88,10 +88,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     res.statusCode = 403;
     return { props: { addresses: [] } };
   }
+ 
+  let name:string=""
+  if(session.user) 
+  {
+    name=session.user.name as string;
+  }
+ 
 
-  let addresses = await prisma.address.findMany({
+  let addressesPrisma = await prisma.address.findMany({
     where: {
-      applicant: session.user.name ,
+      applicant: name ,
     },
     select:{
         id: true,
@@ -105,18 +112,43 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         protocol: true,
         approver: true,
         createdAt: true,
+        updatedAt: true,
         status: true,
     }
   });
   //.then((data) =>{ data.createdAt.toISOString();return data;});
   //addresses?.createdAt = addresses?.createdAt.toISOString();
 
+  let addresses:AddressProps[]=[];
   
-  addresses.map(address => {
-    address.createdAt = Date(Math.floor(address.createdAt/1000));
-    address.updateAt = Date(Math.floor(address.updateAt/1000));
-    address.startIntAddress=address.startIntAddress.toString();
-    address.endIntAddress=address.endIntAddress.toString();
+  addressesPrisma.map(address => {
+    
+    if(!address.updatedAt) {
+      address.updatedAt=new Date(0);
+
+    }
+
+    let date= new Date(address.updatedAt);
+    let date2= new Date(address.createdAt);
+
+
+     let addressProps:AddressProps={
+      id: address.id,
+      startAddress: address.startAddress,
+      endAddress: address.endAddress,
+      addressType: address.addressType,
+      addressDescription: address.addressDescription,
+      startIntAddress:address.startIntAddress.toString(),
+      endIntAddress:address.endIntAddress.toString(),
+      applicant: address.applicant,
+      protocol: address.protocol,
+      approver: address.approver as string,
+      createdAt: date.toString(),
+      updatedAt: date2.toString(),
+      status: address.status,
+    }
+    addresses.push(addressProps);
+   
     return address
   });
 

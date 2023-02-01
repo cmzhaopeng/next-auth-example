@@ -6,9 +6,16 @@ export default function Component(){
     if (session) {
       return (
       <>
-         <span>{session.user.username}</span>
-          <button onClick={() => signOut()}>登出</button>
+        {session.user && ( 
+          <div>
+               <span>{session.user.name}</span>
+                 <button onClick={() => signOut()}>登出</button>
+                 </div>
+          
+          )
+        }
         </>
+       
       )
     }
     return (

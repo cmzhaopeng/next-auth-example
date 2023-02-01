@@ -6,8 +6,13 @@ import Menu from "./Menu";
 import { useDispatch,useSelector } from "react-redux";
 import {selectNaviPath} from "../store/naviSlice";
 
+interface Props {
+  showNav:boolean;
+}
 
-const SideBar = forwardRef(({ showNav }, ref) => {
+export type Ref=HTMLDivElement;
+
+const SideBar = forwardRef<Ref,Props>(({showNav}, ref) => {
   const router = useRouter();
   //const dispatch=useDispatch();
 
