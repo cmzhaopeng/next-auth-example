@@ -9,22 +9,37 @@ import { selectNaviPath } from "../store/naviSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {Constants} from "../pages/util";
 
-const menu = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Contact", path: "/contact" },
-];
+import { MenuProps } from "./Menu"
+
+
+
 
 const Header: React.FC = () => {
   const router = useRouter();
+  const [menu, setMenu] = useState([] as MenuProps);
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
   const { data: session, status } = useSession();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [gouser, setGouser] = React.useState(null);
-
+  const [isLoading, setIsLoading] = useState(true);
+ 
   const naviPath = useSelector(selectNaviPath);
+
+  const handleGetUserPrivilege = async () => {
+    try {
+      const res = await fetch("/api/user/privilege/address");
+      const data = await res.json();
+      console.log("api/user/privilege/address");
+      console.log(data);
+      setMenu(data);
+      setIsLoading(false);
+    } catch (error) {
+      //setError(error);
+      setIsLoading(false);
+    }
+  };
 
   const handleGetgodata = async (para: string) => {
     //const res = await fetch("api/go", {
@@ -38,8 +53,9 @@ const Header: React.FC = () => {
   };
 
   useEffect(() => {
-    handleGetgodata("test-para");
-  }, []);
+    //handleGetgodata("test-para");
+    handleGetUserPrivilege();
+  }, [session]);
 
   let left = (
     <div className="left">
@@ -71,7 +87,7 @@ const Header: React.FC = () => {
 
   if (session) {
     left = (
-      <div className="left">
+      <div>
         {naviPath == "/" && (
           <div>
             <Link href="/" className="bold" data-active={isActive("/")}>
@@ -88,7 +104,7 @@ const Header: React.FC = () => {
           </div>
         )}
         {naviPath=="/address" && (
-          <>
+          <div>
             <Link href="/address" className="bold" data-active={isActive("/address")}>
               {Constants.ADDRESS}
             </Link>
@@ -96,13 +112,18 @@ const Header: React.FC = () => {
             <Link href="/address/status" className="bold" data-active={isActive("/address/status")}>
               {Constants.ADDRESS_STATUS}
             </Link>
-          
-          </>
-          )}
+            <span> | </span>
+            { menu.map((item) => (
+              <>
+                                      <Link key={item.name} href={item.privilegeContent} className="bold" data-active={isActive(item.privilegeContent)}>
+              {item.name}
+                </Link>
+                 </>
+          ))}
 
       </div>
-    );
-  }
+    )}
+      </div>);
 
   return (
     <nav>
@@ -111,5 +132,5 @@ const Header: React.FC = () => {
     </nav>
   );
 };
-
+}
 export default Header;

@@ -3,12 +3,16 @@ import Layout from "../../components/Layout";
 import { GetServerSideProps } from "next";
 import { useSession, getSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
-import { convertLength } from "@mui/material/styles/cssUtils";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
 import {
   DataGrid,
   GridColDef,
   GridValueGetterParams,
   GridValueFormatterParams,
+  GridSelectionModel,
 } from "@mui/x-data-grid";
 
 import Box from "@mui/material/Box";
@@ -65,10 +69,7 @@ const columns: GridColDef[] = [
     {field:"createdAt",headerName:"Created At",width:150,
     valueGetter:getFormatDate,
      },
-    {field:"updatedAt",headerName:"updated At",width:150,
-    valueGetter:getFormatDateUpdated,
-  },
-    {field:"status",headerName:"Status",width:150,
+        {field:"status",headerName:"Status",width:150,
     valueFormatter:(params:GridValueFormatterParams<number>)=>{
       switch(params.value) {
          case 0:
@@ -77,9 +78,12 @@ const columns: GridColDef[] = [
           return 'approved';
          case 2:
           return 'Written to Firewall';
+          case 3:
+            return 'denied';
       }
       },
     },
+    
 ];
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
@@ -98,7 +102,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   let addressesPrisma = await prisma.address.findMany({
     where: {
-      applicant: name ,
+      status: 0 ,
     },
     select:{
         id: true,
@@ -167,10 +171,10 @@ type Props = {
   addresses: AddressProps[];
 };
 
-const AddressStatus: React.FC<Props> = ( props ) => {
+const AddressApprove: React.FC<Props> = ( props ) => {
   const { data: session } = useSession();
   const [rows,setRows] = React.useState(props.addresses);
-  
+   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   if (!session) {
     return (
@@ -180,10 +184,14 @@ const AddressStatus: React.FC<Props> = ( props ) => {
       </Layout>
     );
   }
+
+ 
   return (
     <Layout>
+   
       <div className="page">
             <main>  
+         
         <Box className="flex" sx={{height: 400, width: '100%',
          '& .super-app-theme--repeat': {
           bgcolor: '#ff943975',
@@ -195,14 +203,30 @@ const AddressStatus: React.FC<Props> = ( props ) => {
       
       }}>
         <DataGrid
-          className="flex"
           rows={rows}
+          className="flex"
           columns={columns}
           pageSize={5}
-        
+            checkboxSelection
+              onSelectionModelChange={(newSelectionModel) => {
+                setSelectionModel(newSelectionModel);
+            }}
+            selectionModel={selectionModel}
+            {...rows}
           />
 
       </Box>
+      
+      <div>
+        {selectionModel
+          .map((selectedId) => rows.find((item) => item.id === selectedId))
+          .map(({ id, startAddress, endAddress }) => (
+            <div key={id}>
+              <p>{startAddress}</p>
+              <p>{endAddress}</p>
+            </div>
+          ))}
+      </div>
         </main>
       </div>
 
@@ -210,4 +234,4 @@ const AddressStatus: React.FC<Props> = ( props ) => {
   );
 };
 
-export default AddressStatus;
+export default AddressApprove;

@@ -51,12 +51,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   //if(csrfToken) console.log("csrfToken: " + csrfToken);
 
   //if(token) console.log("token: " + token);
-
+/*
   const isAdmin = session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
   if (!isAdmin) {
     res.statusCode = 403;
     return { props: { users: [] } };
   }
+*/
   const users = await prisma.user.findMany({});
   return {
     props: { users },

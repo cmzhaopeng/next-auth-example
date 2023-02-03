@@ -16,9 +16,9 @@ export default function signin({ csrfToken }) {
           alt=""
         />
         <div className="">
-          <form action="/" method="POST">
+          <form action="/api/auth/callback/github" method="POST">
             <input type="hidden" name="csrfToken" value={csrfToken} />
-            <input type="hidden" name="callbackUrl" value="/" />
+            <input type="hidden" name="callbackUrl" value="http://localhost:3000/api/auth/callback/github" />
             <button type="submit" className="bg-red-400 mt-6 rounded-lg p-3 text-white hover:bg-red-500">
               <span>Sign in with GitHub</span>
             </button>

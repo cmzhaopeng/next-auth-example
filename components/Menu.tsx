@@ -86,7 +86,7 @@ export default function Menu() {
   return (
     <>
 
-      {admin} 
+      {/* admin */} 
       {menu.map(
         (item) => (
           <div key={item.name}>

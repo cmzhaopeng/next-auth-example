@@ -75,13 +75,13 @@ const  TopBar:FC<ShowNaviProp>=({ showNav, setShowNav })=> {
     dispatch(setAuthState(true))
 
     right = (
-      <div className="flex flex-row relative text-left">
+      <div className="flex flex-row pt-2 relative text-left">
         <Menu as="div" className="inline-flex relative  text-left">
           <div>
             <Menu.Button className="inline-flex w-full justify-center items-center">
               <picture>
                 <img
-                  src="/man-smiling.jpg"
+                  src="/businessman.png"
                   className="rounded-full h-8 md:mr-4  border-2 border-white shadow-sm"
                   alt="profile picture"
                 />
@@ -152,7 +152,7 @@ const  TopBar:FC<ShowNaviProp>=({ showNav, setShowNav })=> {
         <Popover className="relative">
           <Popover.Button className="flex outline-none mr-5 md:mr-8 cursor-pointer text-gray-700">
             <BellIcon className="h-6 w-6" />
-            <p className="bg-red-500 text-white rounded-full w-6 h-6 ">4</p>
+            <p className="bg-red-500 text-white rounded-full w-6 h-6 ">0</p>
           </Popover.Button>
           <Transition
             as={Fragment}

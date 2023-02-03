@@ -20,10 +20,11 @@ export default async function handle(req:NextApiRequest, res:NextApiResponse) {
 
 
     const name= session.user?.name
+
     console.log("api/user/privilege/[id].ts")
     console.log(name)
     console.log(menu)
-    const privilege = await prisma.privilege.findMany({
+    let privilegeQuery = await prisma.privilege.findMany({
         where: {
             privilegeType: menu,
         },
@@ -45,7 +46,16 @@ export default async function handle(req:NextApiRequest, res:NextApiResponse) {
             },
         },
     })
-    console.log(privilege);
+    console.log(privilegeQuery);
+
+    //filter the privilegeQuery according user.name==session.user.name
+    let privilege = privilegeQuery.filter((item) => {
+        return item.groupPrivilege[0].group.userGroup[0]?.user.name == name;
+    });
+
+    privilege.forEach((item) => {
+        console.log(item.groupPrivilege[0].group.userGroup[0]?.user.name);
+    });
     res.json(privilege);
     //res.json(privilege[0]);
 }
