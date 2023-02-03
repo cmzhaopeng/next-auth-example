@@ -37,11 +37,8 @@ type Props = {
 };
 
 const Blog: React.FC<Props> = (props) => {
-  const authState = useSelector(selectAuthState);
   const dispatch = useDispatch();
-
   dispatch(setNaviPath("/"));
-
 
 
   return (

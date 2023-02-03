@@ -84,8 +84,8 @@ export default function Address() {
   const [rows,setRows] =  useState<AddressProps>([]);
 
   dispatch(setNaviPath("/address"));
-  console.log("naviPath:");
-  console.log(useSelector(selectNaviPath));
+  //console.log("naviPath:");
+  //console.log(useSelector(selectNaviPath));
 
   //add a form handle function, when submit the form, call the handleAddressList function
   const handleAddressList = (e: React.MouseEvent<HTMLButtonElement>) => {

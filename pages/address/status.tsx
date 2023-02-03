@@ -77,6 +77,8 @@ const columns: GridColDef[] = [
           return 'approved';
          case 2:
           return 'Written to Firewall';
+          case 3:
+            return 'Denied';
       }
       },
     },

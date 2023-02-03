@@ -1,4 +1,4 @@
-import { Fragment, useState,FC } from "react";
+import { Fragment, useState, FC } from "react";
 import {
   Bars3CenterLeftIcon,
   PencilIcon,
@@ -15,22 +15,17 @@ import { selectAuthState, setAuthState } from "../store/authSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 
-type  ShowNaviProp ={
+type ShowNaviProp = {
   showNav: boolean;
   setShowNav: (showNav: boolean) => void;
-}
+};
 
-
-const  TopBar:FC<ShowNaviProp>=({ showNav, setShowNav })=> {
+const TopBar: FC<ShowNaviProp> = ({ showNav, setShowNav }) => {
   const router = useRouter();
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
   const { data: session, status } = useSession();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const authState = useSelector(selectAuthState);
   const dispatch = useDispatch();
-
 
   let left = (
     <div className="pl-4 md:pl-16">
@@ -43,28 +38,25 @@ const  TopBar:FC<ShowNaviProp>=({ showNav, setShowNav })=> {
 
   let right = null;
 
-   if (status === "loading") {
-     right=(
+  if (status === "loading") {
+    right = (
       <div className="flex flex-row relative text-left">
-      <div className="inline-flex w-full justify-center items-center">
+        <div className="inline-flex w-full justify-center items-center">
           <span className="md:block font-medium text-gray-700">
-          Validating session ...
+            Validating session ...
           </span>
+        </div>
       </div>
-    </div>
-     )
-
-   }
+    );
+  }
 
   if (!session) {
-    dispatch(setAuthState(false))
+    dispatch(setAuthState(false));
     right = (
       <div className="flex flex-row relative text-left">
         <div className="inline-flex w-full justify-center items-center">
           <Link href="/api/auth/signin" data-active={isActive("/signup")}>
-            <span className="md:block font-medium text-gray-700">
-              Log in
-            </span>
+            <span className="md:block font-medium text-gray-700">Log in</span>
           </Link>
         </div>
       </div>
@@ -72,7 +64,7 @@ const  TopBar:FC<ShowNaviProp>=({ showNav, setShowNav })=> {
   }
 
   if (session) {
-    dispatch(setAuthState(true))
+    dispatch(setAuthState(true));
 
     right = (
       <div className="flex flex-row pt-2 relative text-left">
@@ -172,21 +164,21 @@ const  TopBar:FC<ShowNaviProp>=({ showNav, setShowNav })=> {
                   </a>
                 </div>
                 <div className="mt-4 grid gap-4 grid-cols-1 overflow-hidden">
-                    <Link href="/address">
-                  <div className="flex">
-                    <div className="rounded-full shrink-0 bg-green-200 h-8 w-8 flex items-center justify-center">
-                      <CheckIcon className="h-4 w-4 text-green-600" />
+                  <Link href="/address">
+                    <div className="flex">
+                      <div className="rounded-full shrink-0 bg-green-200 h-8 w-8 flex items-center justify-center">
+                        <CheckIcon className="h-4 w-4 text-green-600" />
+                      </div>
+                      <div className="ml-4">
+                        <p className="font-medium text-gray-700">
+                          Address Added
+                        </p>
+                        <p className="text-sm text-gray-500 truncate">
+                          Test Notification text for design
+                        </p>
+                      </div>
                     </div>
-                    <div className="ml-4">
-                      <p className="font-medium text-gray-700">
-                        Address Added
-                      </p>
-                      <p className="text-sm text-gray-500 truncate">
-                        Test Notification text for design
-                      </p>
-                    </div>
-                  </div>
-                    </Link>
+                  </Link>
                   <div className="flex">
                     <div className="rounded-full shrink-0 bg-green-200 h-8 w-8 flex items-center justify-center">
                       <CheckIcon className="h-4 w-4 text-green-600" />
@@ -235,7 +227,6 @@ const  TopBar:FC<ShowNaviProp>=({ showNav, setShowNav })=> {
       </div>
     </div>
   );
-}
-
+};
 
 export default TopBar;
