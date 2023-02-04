@@ -24,7 +24,7 @@ export default async function handle(req:NextApiRequest, res:NextApiResponse) {
     });
     return;
   }
-
+/*
   const isAdmin = session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
   if (!isAdmin) {
     res.status(401).json({
@@ -32,6 +32,7 @@ export default async function handle(req:NextApiRequest, res:NextApiResponse) {
     });
     return;
   }
+  */
 
   const method = req.method;
   const data = req.body;
