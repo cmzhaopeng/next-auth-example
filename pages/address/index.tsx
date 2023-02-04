@@ -12,22 +12,10 @@ import {
   GridColDef,
   GridValueGetterParams,
   GridRowModel,
-  GridRowId,
-  GridCellModes,
-  GridCellModesModel,
-  GridEventListener,
-  GridCellParams,
 } from "@mui/x-data-grid";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import cuid from "cuid";
-import Alert, { AlertProps } from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import  DialogActions  from "@mui/material/DialogActions";
+import { Constants } from "../util";
+
 
 const addressList: string[] = [
   "7.8.8.8",
@@ -101,17 +89,17 @@ export default function Address() {
     e.preventDefault();
     console.log(rows);
     if(rows.length===0){
-      setInfo("Please input the address list!");
+      setInfo(Constants.ADDRESS_INFO_NO_ADDRESS);
       return;
     }
     let hasNull=false;
     rows.map((item) => { 
       if(item.description===""){
-        setInfo("Please input the description!");
+        setInfo(Constants.ADDRESS_INFO_NO_DESCRIPTION);
         hasNull=true;
       }
       if(item.isRepeat){
-        setInfo("The address is duplicated!");
+        setInfo(Constants.ADDRESS_INFO_ADDRESS_DUPLICATED);
         hasNull=true;
       }
     });
@@ -130,7 +118,7 @@ export default function Address() {
       .catch((err) => {
         console.log(err);
       });
-    setInfo("The addresses are submit!")
+    setInfo(Constants.ADDRESS_INFO_SUBMITTED)
     setAddressTable([]);
     setRows([]);
   };
@@ -271,13 +259,13 @@ export default function Address() {
               className="bg-orange-500 text-white px-4 py-1.5 rounded-full font-bold shadow-md hover:bg-orange-300"
               onClick={handleAddressList}
             >
-              Verify IP Address
+              {Constants.ADDRESS_BTN_VERIFY}
             </button>
             <button
               className="bg-orange-500 text-white px-4 py-1.5 rounded-full font-bold shadow-md hover:bg-orange-300"
               onClick={handleInsertToDatabase}
             >
-              Submit Application
+              {Constants.ADDRESS_BTN_SUBMIT}
             </button>
           </div>
           {/*

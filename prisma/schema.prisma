@@ -113,4 +113,23 @@ model Address {
   status             Int
   createdAt          DateTime  @default(now())
   updatedAt          DateTime? @updatedAt
+  addressIpGroup     AddressIpGroup[]
+}
+
+model AddressIpGroup {
+  id         Int    @id @default(autoincrement())
+  addressId  Int    @map("address_id")
+  ipGroupId  Int    @map("ip_group_id")
+  address    Address @relation(fields: [addressId], references: [id])
+  ipGroup    IpGroup @relation(fields: [ipGroupId], references: [id])
+}
+
+model IpGroup {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  description String?
+  ipCount Int @map("ip_count") @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  addressIpGroup AddressIpGroup[]
 }

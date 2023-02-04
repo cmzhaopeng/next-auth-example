@@ -6,7 +6,7 @@ import prisma from "../../lib/prisma";
 import axios from "axios";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
+import { Constants } from "../util";
 
 import {
   DataGrid,
@@ -15,6 +15,7 @@ import {
   GridValueFormatterParams,
   GridSelectionModel,
 } from "@mui/x-data-grid";
+
 
 import Box from "@mui/material/Box";
 
@@ -252,17 +253,17 @@ const AddressApprove: React.FC<Props> = (props) => {
         <main>
           <Box sx={{ width: "100%" }}>
             <Stack direction="row" spacing={2}>
-              <Button size="small" onClick={handleApprove}>
-                Approve
+              <Button size="large" onClick={handleApprove}>
+                {Constants.ADDRESS_BTN_APPROVE}
               </Button>
-              <Button size="small" onClick={handleDeny}>
-                Deny
+              <Button size="large" onClick={handleDeny}>
+              {Constants.ADDRESS_BTN_REJECT}
               </Button>
-              <Button size="small" onClick={handleCancel}>
-                Cancel
+              <Button size="large" onClick={handleCancel}>
+              {Constants.ADDRESS_BTN_CANCEL}
               </Button>
-              <Button size="small" onClick={saveToDatabase}>
-                Save to Database
+              <Button size="large" onClick={saveToDatabase}>
+              {Constants.ADDRESS_BTN_SAVE_TO_DATABASE}
               </Button>
             </Stack>
 

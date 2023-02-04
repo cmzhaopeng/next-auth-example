@@ -72,7 +72,7 @@ const columns: GridColDef[] = [
     valueFormatter:(params:GridValueFormatterParams<number>)=>{
       switch(params.value) {
          case 0:
-          return 'commit';
+          return 'committed';
          case 1:
           return 'approved';
          case 2:
