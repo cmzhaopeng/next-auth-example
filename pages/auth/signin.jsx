@@ -2,7 +2,7 @@ import React from "react";
 
 import { getCsrfToken, getProviders,signIn } from "next-auth/react";
 
-
+import { Constants } from "../util";
 
 
 
@@ -18,7 +18,7 @@ export default function signin({ csrfToken }) {
         <div className="">
           <form action="/api/auth/callback/github" method="POST">
             <input type="hidden" name="csrfToken" value={csrfToken} />
-            <input type="hidden" name="callbackUrl" value="http://localhost:3000/api/auth/callback/github" />
+            <input type="hidden" name="callbackUrl" value="/api/auth/callback/github" />
             <button type="submit" className="bg-red-400 mt-6 rounded-lg p-3 text-white hover:bg-red-500">
               <span>Sign in with GitHub</span>
             </button>
@@ -42,7 +42,7 @@ export default function signin({ csrfToken }) {
                 type="password" 
               />
             </div>
-            <button className="bg-red-400  ml-3 mt-6 rounded-lg p-3 text-white hover:bg-red-500" type="submit">Sign in with LDAP</button>
+            <button className="bg-red-400  ml-10 mt-6 rounded-lg p-3 text-white hover:bg-red-500" type="submit">{Constants.SIGNIN_BTN_LDAP}</button>
             </div>
           </form>
         </div>
