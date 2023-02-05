@@ -31,6 +31,14 @@ import  DialogActions  from "@mui/material/DialogActions";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
+export type PrivilegeProps = {
+  name:string,
+  privilegeType:string,
+  privilegeContent:string,
+  description:string,
+  sort_no:number,
+};
+
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 270 },
   { field: "name", headerName: "Name", width: 130, editable: true },
@@ -47,6 +55,27 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     res.statusCode = 403;
     return { props: { users: [] } };
   }
+
+    const menu= "menu"
+    const email= session.user.email
+    let privilege: PrivilegeProps[]=await prisma.$queryRaw `select distinct p.name as name, p.privilege_type as "privilegeType", p.privilege_content as "privilegeContent",
+    p.description as description, p.sort_no  from "Privilege" p left join "GroupPrivilege" gp on p.name=gp.privilege_name
+    left join "Group" g on gp.group_name=g.name left join "UserGroup" ug on g.name=ug.group_name
+    left join "User" u on u.email=ug.user_email where p.privilege_type=${menu} and u.email=${email} order by p.sort_no`
+    //console.log(privilege);
+    //filter the privilege privilegeContent is "/admin"
+    privilege=privilege.filter((item)=>item.privilegeContent=="/admin")
+    //console.log("admin server side:")
+    //console.log(privilege);
+
+    if(privilege.length == 0) {
+      res.statusCode = 403;
+    return { props: { users: [] } };
+
+    }
+
+
+
 
   //if(csrfToken) console.log("csrfToken: " + csrfToken);
 

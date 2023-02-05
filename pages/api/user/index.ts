@@ -4,6 +4,7 @@ import { getSession } from "next-auth/react";
 import prisma from "../../../lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 // POST /api/user
+import { PrivilegeProps } from "../../admin";
 
 export type UserProps = {
   id: string;
@@ -33,6 +34,23 @@ export default async function handle(req:NextApiRequest, res:NextApiResponse) {
     return;
   }
   */
+  const menu= "menu"
+  const email= session.user.email
+  let privilege: PrivilegeProps[]=await prisma.$queryRaw `select distinct p.name as name, p.privilege_type as "privilegeType", p.privilege_content as "privilegeContent",
+  p.description as description, p.sort_no  from "Privilege" p left join "GroupPrivilege" gp on p.name=gp.privilege_name
+  left join "Group" g on gp.group_name=g.name left join "UserGroup" ug on g.name=ug.group_name
+  left join "User" u on u.email=ug.user_email where p.privilege_type=${menu} and u.email=${email} order by p.sort_no`
+  //console.log(privilege);
+  //filter the privilege privilegeContent is "/admin"
+  privilege=privilege.filter((item)=>item.privilegeContent=="/admin")
+
+  if (privilege.length==0) {
+      res.status(401).json({
+        message: "You must be Admin to view the protected content on this page.",
+      });
+      return;
+    }
+
 
   const method = req.method;
   const data = req.body;

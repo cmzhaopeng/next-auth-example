@@ -27,8 +27,8 @@ export default async function handle(req:NextApiRequest, res:NextApiResponse) {
     left join "Group" g on gp.group_name=g.name left join "UserGroup" ug on g.name=ug.group_name
     left join "User" u on u.email=ug.user_email where p.privilege_type=${menu} and u.email=${email} order by p.sort_no`
     
-    console.log("$queryRaw");
-    console.log(privilege);
+ //   console.log("$queryRaw");
+ //   console.log(privilege);
 
 /*
     let privilege = await prisma.privilege.findMany({
