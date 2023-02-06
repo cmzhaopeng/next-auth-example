@@ -78,15 +78,15 @@ const columns: GridColDef[] = [
     },
   },
   { field: "id", headerName: "ID", width: 70 },
-  { field: "startAddress", headerName: "Start Address", width: 100 },
-  { field: "endAddress", headerName: "End Address", width: 100 },
+  { field: "startAddress", headerName: "Start Address", width: 150 },
+  { field: "endAddress", headerName: "End Address", width: 150 },
   {
     field: "addressCount",
     headerName: "Count",
     valueGetter: getCount,
     width: 20,
   },
-  { field: "addressDescription", headerName: "Description", width: 150 },
+  { field: "addressDescription", headerName: "Description", width: 250 },
   {
     field: "protocol",
     headerName: "Protocol",
