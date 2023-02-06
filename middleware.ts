@@ -1,4 +1,4 @@
-import { NextRequest,NextResponse } from "next/server";
+import { NextRequest,NextResponse,NextFetchEvent} from "next/server";
 import { getToken } from "next-auth/jwt";
 import axios from "axios";
 import prisma from "./lib/prisma";
@@ -22,33 +22,26 @@ async function  getPrivilege(name: string,user_email:string) {
 }
 */
 
-export async function middleware( req:NextRequest) {
+export async function middleware( req:NextRequest,event:NextFetchEvent) {
 
     console.log("middleware.ts")
-    if(req.nextUrl.pathname==="/admin"){
-        const token = await getToken({ req, secret: process.env.SECRET });
+   // if(req.nextUrl.pathname==="/admin"){
+        const token = await getToken({ req, secret: process.env.SECRET});
         if (!token) {
             return NextResponse.redirect(new URL("/api/auth/signin", req.url));
         }
         console.log(token.email);
-     
-        
-      
-
-
-    
-        
-            /*    
+        /*    
         if(privilege.length===0){
             return NextResponse.redirect(new URL("/", req.url));
         }
      */ 
-    }
+ //   }
 
    
     
 }
 
 export const config={
-    matcher:['/admin',]
+    matcher:['/admin','/api/addr/:path*','/api/user/:path*','/address','/api/addr','/api/user','/api/post','/create','/drafts',]
 }
