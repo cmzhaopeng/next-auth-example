@@ -8,10 +8,7 @@ import { selectAuthState, setAuthState } from "../store/authSlice";
 import { selectNaviPath } from "../store/naviSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {Constants} from "../pages/util";
-
-import { MenuProps } from "./Menu"
-
-
+import { MenuProps,SessionProp } from "./Menu";
 
 
 const Header: React.FC = () => {
@@ -24,21 +21,21 @@ const Header: React.FC = () => {
   const [error, setError] = React.useState("");
   const [gouser, setGouser] = React.useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
  
   const naviPath = useSelector(selectNaviPath);
 
   const handleGetUserPrivilege = async () => {
-    try {
-      const res = await fetch("/api/user/privilege/address");
-      const data = await res.json();
-      console.log("api/user/privilege/address");
+      const privileges=(session as unknown as SessionProp).privileges;
+      //filter the menu items in privileges
+      const data=privileges.filter((item)=>item.privilegeType=="address");
       console.log(data);
       setMenu(data);
       setIsLoading(false);
-    } catch (error) {
-      //setError(error);
+      console.log(data);
+      setMenu(data);
       setIsLoading(false);
-    }
+  
   };
 
   const handleGetgodata = async (para: string) => {

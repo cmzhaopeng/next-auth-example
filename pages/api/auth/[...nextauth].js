@@ -15,6 +15,7 @@ export default NextAuth({
         timeout: 40000,
       },
     }), 
+   
     CredentialsProvider({
       name: "LDAP",
       credentials: {
@@ -111,7 +112,16 @@ export default NextAuth({
         console.error("Error:", error);
       });
       */
-      return {...session, jwtToken:data.token } ;
+      const email= session.user.email
+      
+      const privileges=await  prisma.$queryRaw `select distinct p.name as name, p.privilege_type as "privilegeType", p.privilege_content as "privilegeContent",
+      p.description as description, p.sort_no  from "Privilege" p left join "GroupPrivilege" gp on p.name=gp.privilege_name
+      left join "Group" g on gp.group_name=g.name left join "UserGroup" ug on g.name=ug.group_name
+      left join "User" u on u.email=ug.user_email where u.email=${email} order by p.sort_no`
+      
+    //  console.log(privileges)
+
+      return {...session, jwtToken:data.token, privileges:privileges, } ;
     }
 
   },

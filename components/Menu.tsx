@@ -10,9 +10,24 @@ import { Constants } from "../pages/util";
 
 export type MenuProps = {
   name: string;
+  privilegeType:string;
   privilegeContent: string;
   description: string;
+  sort_no:number
 }[];
+
+//define the type of the session, which contain the type of user object and jwtToken
+export type SessionProp = {
+  privileges: MenuProps;
+  jwtToken:string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    image: string;
+  }
+ 
+}
 
 export default function Menu() {
   const router = useRouter();
@@ -25,9 +40,12 @@ export default function Menu() {
 
   const handleGetUserPrivilege = async () => {
     try {
-      const res = await fetch("api/user/privilege/menu");
-      const data = await res.json();
-      console.log("api/user/privilege/menu");
+      //const res = await fetch("api/user/privilege/menu");
+      //const data = await res.json();
+      //console.log("api/user/privilege/menu");
+      const privileges=(session as unknown as SessionProp).privileges;
+      //filter the menu items in privileges
+      const data=privileges.filter((item)=>item.privilegeType=="menu");
       console.log(data);
       setMenu(data);
       setIsLoading(false);
