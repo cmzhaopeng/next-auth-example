@@ -1,10 +1,5 @@
 import { useState } from "react";
 
-/**
- * # MY ACCOUNT GOOGLE PLAY:
- * @see {@link https://play.google.com/store/apps/developer?id=dzino Google Play}
- */
-
 export default function PrivatePage(props) {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
