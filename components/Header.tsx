@@ -26,15 +26,15 @@ const Header: React.FC = () => {
   const naviPath = useSelector(selectNaviPath);
 
   const handleGetUserPrivilege = async () => {
+      if(session)
+      {
       const privileges=(session as unknown as SessionProp).privileges;
       //filter the menu items in privileges
       const data=privileges.filter((item)=>item.privilegeType=="address");
       console.log(data);
       setMenu(data);
       setIsLoading(false);
-      console.log(data);
-      setMenu(data);
-      setIsLoading(false);
+      }
   
   };
 

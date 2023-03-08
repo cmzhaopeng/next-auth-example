@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
+import FileUpload from "../../components/File-upload"
 import axios from "axios";
 import { selectAuthState, setAuthState } from "../../store/authSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -305,6 +306,7 @@ export default function Address() {
 
       </Box>
 
+<FileUpload/>
       </div>
     </Layout>
     </>
