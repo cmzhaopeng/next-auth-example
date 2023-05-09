@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
+//import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import React from "react";
@@ -15,7 +15,7 @@ import LoginBtn from "../components/login-btn";
 
 import prisma from "../lib/prisma";
 
-const inter = Inter({ subsets: ["latin"] });
+//const inter = Inter({ subsets: ["latin"] });
 
 export const getStaticProps: GetStaticProps = async () => {
   const feed = await prisma.post.findMany({
