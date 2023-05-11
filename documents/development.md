@@ -78,7 +78,7 @@ insert into "GroupPrivilege" values(uuid_generate_v4(),'GroupAdmin','权限管�
 
 ## Add icon to the menu item
 
-Visit [Heroicons Website](https://heroicons.com/) to find the icon you want to use, and copy the svg code to the menu item (Move the cursor to the icon you want to use, it will show the shortcut menu "COPY SVG" and "COPY JSX", click COPY SVG, the svg data will be copy into Clipboard). Paste the svg data into text editor, select the data content after the "d=" and before the " />" and copy it. Paste the data into the menu item record in the database (the column name is "description" )
+Visit [Heroicons Website](https://heroicons.com/) to find the icon you want to use, and copy the svg code to the menu item (Move the cursor to the icon you want to use, it will show the shortcut menu "COPY SVG" and "COPY JSX", click COPY SVG, the svg data will be copy into Clipboard). Paste the svg data into text editor, select the data content after the "d=" and before the " />" and copy it. Paste the data into the menu item record in the database (the column name is "description" )  
 
 ``` xml
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -102,6 +102,16 @@ Or use the below sql command:
 
 ```sql
 update "Privilege" set description='M...the data you copy...0z' where name='权限管理
+```
+
+If you check the code in Menu.tsx, you will find the data is used in the "d" attribute of the path element.
+
+```tsx
+ <div className="mr-2">
+    <svg className="h-5 w-5 fill-current"  viewBox="0 0 24 24">
+       <path d={item.description} />
+    </svg>
+ </div>
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
